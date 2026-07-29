@@ -77,7 +77,6 @@ public class LoginPage {
         String dynamicCaptchaText = getDynamicCaptchaText();
 
         page.fill(emailInput, username);
-        page.pause();
         page.fill(passwordInput, password);
         page.fill(enterCaptcha, dynamicCaptchaText);
         page.click(loginButton);
@@ -90,10 +89,8 @@ public class LoginPage {
     }
 
     public AgentDashboardPage agentLogin(String username, String password) {
-        page.click(staffLogin);
-
         String dynamicCaptchaText = getDynamicCaptchaText();
-
+        page.click(staffLogin);
         page.fill(emailInput, username);
         page.fill(passwordInput, password);
         page.fill(enterCaptcha, dynamicCaptchaText);

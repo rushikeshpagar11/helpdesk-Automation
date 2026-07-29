@@ -32,9 +32,10 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test
-    public void agentLoginTest(){
+    public void agentLoginTest() {
         agentDashboardPage = loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         String title = agentDashboardPage.getAgentDashboardTitle();
         Assert.assertEquals(title, AppConstants.AGENT_DASHBOARD_TITLE);
     }
+
 }
