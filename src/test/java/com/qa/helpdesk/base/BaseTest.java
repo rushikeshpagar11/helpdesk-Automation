@@ -2,9 +2,11 @@ package com.qa.helpdesk.base;
 
 import com.microsoft.playwright.Page;
 import com.qa.helpdesk.factory.PlaywrightFactory;
+import com.qa.helpdesk.pages.AdminPage;
 import com.qa.helpdesk.pages.AgentDashboardPage;
 import com.qa.helpdesk.pages.HomePage;
 import com.qa.helpdesk.pages.LoginPage;
+import net.datafaker.Faker;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
@@ -18,6 +20,8 @@ public class BaseTest {
     protected LoginPage loginPage;
     protected HomePage homePage;
     protected AgentDashboardPage agentDashboardPage;
+    protected Faker faker;
+    protected AdminPage adminPage;
 
     @BeforeTest
     public void setup() {
@@ -26,6 +30,8 @@ public class BaseTest {
         page = playwrightFactory.initBrowser(prop);
         loginPage = new LoginPage(page);
         agentDashboardPage = new AgentDashboardPage(page);
+        faker = new Faker();
+        adminPage = new AdminPage(page);
     }
 
     @AfterTest

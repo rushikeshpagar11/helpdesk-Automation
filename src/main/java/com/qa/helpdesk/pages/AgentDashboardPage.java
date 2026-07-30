@@ -2,6 +2,7 @@ package com.qa.helpdesk.pages;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.LoadState;
 
 public class AgentDashboardPage {
 
@@ -14,6 +15,11 @@ public class AgentDashboardPage {
     private String enterDescription = "//div[@class='ql-editor ql-blank']";
     private String viewBtn = "//button[normalize-space()='View Ticket']";
     private String ticketTitle = "//h1[contains(@class,'text-label')]";
+    private String profileIcon = "//img[@alt='User']";
+    private String switchToAdminBtn = "//span[text()='Switch to Admin']";
+    private String macroDescriptionn = ".ql-editor";
+    private String macroTitles = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) span:nth-child(1)";
+    private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
 
 
     public AgentDashboardPage(Page page){
@@ -33,19 +39,18 @@ public class AgentDashboardPage {
     public AgentDashboardPage createNewTktBtn() {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Ticket")).click();
-
         return new AgentDashboardPage(page);
     }
 
     public AgentDashboardPage selectDepartment(){
     page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
-    page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("IT Department")).click();
+    page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
     return new AgentDashboardPage(page);
     }
 
     public AgentDashboardPage selectType(){
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Type")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Issue")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Incident")).click();
         return new AgentDashboardPage(page);
     }
 
@@ -81,6 +86,53 @@ public class AgentDashboardPage {
         return title;
     }
 
+    public AdminPage clickSwitchToAdminBtn() {
+        page.locator(profileIcon).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Switch to Admin")).click();
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+        return new AdminPage(page);
+    }
+
+    public AgentDashboardPage createNewUser(String firstname,String lastname,String mobileNumber,String email) {
+        clickOnNewBtn();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add User")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."))
+                .pressSequentially(firstname);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
+                        .pressSequentially(lastname);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organisation")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens Inc.")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
+                        .pressSequentially(mobileNumber);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
+                        .pressSequentially(email);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create User")).click();
+        return new AgentDashboardPage(page);
+    }
+
+    public String getUserName(){
+        String user_Name = page.textContent(userName);
+        System.out.println("UserName is : "+ user_Name);
+        return user_Name;
+    }
+
+    public AgentDashboardPage createNewMacro(String macroTitle,String macroDescription) {
+        clickOnNewBtn();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Macro")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a title for the macro"))
+                .fill(macroTitle);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Category")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Open").setExact(true)).click();
+        page.locator(macroDescriptionn).fill(macroDescription);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Macro")).click();
+        return new AgentDashboardPage(page);
+    }
+
+    public String getMacroTitle(){
+        String macro_Title = page.textContent(macroTitles);
+        System.out.println("Macro title is : "+ macro_Title);
+        return macro_Title;
+    }
 
 
 }
