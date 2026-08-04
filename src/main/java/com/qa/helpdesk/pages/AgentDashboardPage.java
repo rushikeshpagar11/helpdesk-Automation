@@ -3,6 +3,7 @@ package com.qa.helpdesk.pages;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.SelectOption;
 
 public class AgentDashboardPage {
 
@@ -18,6 +19,7 @@ public class AgentDashboardPage {
     private String profileIcon = "//img[@alt='User']";
     private String switchToAdminBtn = "//span[text()='Switch to Admin']";
     private String macroDescriptionn = ".ql-editor";
+    private String test = "select[class='w-full h-[45px] border border-border-default rounded-md px-4 text-[14px] appearance-none focus:outline-none focus:border-primary transition-all bg-white text-placeholder']";
     private String macroTitles = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) span:nth-child(1)";
     private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
 
@@ -132,6 +134,32 @@ public class AgentDashboardPage {
         String macro_Title = page.textContent(macroTitles);
         System.out.println("Macro title is : "+ macro_Title);
         return macro_Title;
+    }
+
+    public AgentDashboardPage createNewKnowledgeable(String title,String description) {
+        clickOnNewBtn();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Knowledgeable")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter article title"))
+                        .fill(title);
+       // page.locator(test).selectOption("OPEN");
+        page.locator("//select").first()
+                .selectOption(new SelectOption().setLabel("version"));
+        //page.getByRole(AriaRole.COMBOBOX).selectOption("OPEN");
+        page.locator(macroDescriptionn).fill(description);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Article")).click();
+
+        //page.pause();
+
+        return new AgentDashboardPage(page);
+    }
+
+
+    public AgentDashboardPage addNewTask() {
+        clickOnNewBtn();
+        page.pause();
+
+
+        return new AgentDashboardPage(page);
     }
 
 

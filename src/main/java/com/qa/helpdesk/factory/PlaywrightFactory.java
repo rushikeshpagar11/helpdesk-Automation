@@ -24,7 +24,7 @@ public class PlaywrightFactory {
 
         switch (browserName.toLowerCase()) {
             case "chromium":
-                browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(prop.getProperty("headless"))));
                 break;
 
             case "firefox":
