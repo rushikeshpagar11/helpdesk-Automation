@@ -8,65 +8,64 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void createTicketTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         String subject = faker.book().title();
         String description = faker.company().catchPhrase();
         agentDashboardPage.createNewTktBtn().selectDepartment().selectType()
                 .selectPriority().enterSubject(subject).enterDescription(description)
                 .clickCreateBtn().clickViewBtn();
-        Assert.assertEquals(agentDashboardPage.getTicketTitle(),subject);
+        Assert.assertEquals(agentDashboardPage.getTicketTitle(), subject);
     }
 
     @Test
     public void agentToAdminPanelSwitchTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
-        Assert.assertTrue(adminPage.isEmailTabVisible(),"agent is not redirected to admin panel");
+        Assert.assertTrue(adminPage.isEmailTabVisible(), "agent is not redirected to admin panel");
     }
 
     @Test
     public void createUserTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
-        String userName = firstName+" "+lastName;
+        String userName = firstName + " " + lastName;
         String mobile = "9" + faker.number().digits(9);
         String email = firstName.toLowerCase() + "."
                 + lastName.toLowerCase()
                 + System.currentTimeMillis()
                 + "@yopmail.com";
-        agentDashboardPage.createNewUser(firstName,lastName,mobile, email);
-        Assert.assertEquals(agentDashboardPage.getUserName(),userName,"user is not created");
+        agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
+        Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
 
     }
 
     @Test
     public void createNewMacroTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         String macroTitle = faker.company().buzzword() + " Macro";
         String macroDescription =
                 faker.letterify("Playwright Macro description. ??????");
-        agentDashboardPage.createNewMacro(macroTitle,macroDescription);
-        Assert.assertEquals(agentDashboardPage.getMacroTitle(),macroTitle,"New Macro is not created");
+        agentDashboardPage.createNewMacro(macroTitle, macroDescription);
+        Assert.assertEquals(agentDashboardPage.getMacroTitle(), macroTitle, "New Macro is not created");
     }
 
     @Test
     public void createNewKnowledgeableTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
         String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
         String knowledgeableContent =
                 faker.letterify("Playwright Knowledgeable content. ??????");
-        agentDashboardPage.createNewKnowledgeable(knowledgeableTitle,knowledgeableContent);
-        //Assert.assertEquals(agentDashboardPage.getMacroTitle(),knowledgeableTitle,"New Knowledgeable is not created");
+        agentDashboardPage.createNewKnowledgeable(knowledgeableTitle, knowledgeableContent);
+        Assert.assertEquals(agentDashboardPage.getKnowledgeableTitle(), knowledgeableTitle, "New Knowledgeable is not created");
     }
 
     @Test
     public void addNewTaskTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
-//        String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
-//        String knowledgeableContent =
-//                faker.letterify("Playwright Knowledgeable content. ??????");
-        agentDashboardPage.addNewTask();
-        //Assert.assertEquals(agentDashboardPage.getMacroTitle(),knowledgeableTitle,"New Knowledgeable is not created");
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        String taskTitle = faker.company().buzzword() + " task";
+        String taskDescription = faker.letterify("Playwright task description. ??????");
+        agentDashboardPage.addNewTask(taskTitle, taskDescription);
+        Assert.assertEquals(agentDashboardPage.getTaskTitle(), taskTitle, "New task is not created");
     }
 }

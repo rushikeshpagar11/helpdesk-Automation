@@ -1,9 +1,12 @@
 package com.qa.helpdesk.pages;
 
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.SelectOption;
+
+import java.nio.file.Paths;
 
 public class AgentDashboardPage {
 
@@ -22,6 +25,8 @@ public class AgentDashboardPage {
     private String test = "select[class='w-full h-[45px] border border-border-default rounded-md px-4 text-[14px] appearance-none focus:outline-none focus:border-primary transition-all bg-white text-placeholder']";
     private String macroTitles = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) span:nth-child(1)";
     private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
+    private String knowledgeableTitle = "//tbody/tr[1]/td[2]/div[1]/div[1]";
+    private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
 
 
     public AgentDashboardPage(Page page){
@@ -102,7 +107,7 @@ public class AgentDashboardPage {
                 .pressSequentially(firstname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
                         .pressSequentially(lastname);
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organisation")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organization")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens Inc.")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                         .pressSequentially(mobileNumber);
@@ -139,27 +144,49 @@ public class AgentDashboardPage {
     public AgentDashboardPage createNewKnowledgeable(String title,String description) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Knowledgeable")).click();
-        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter article title"))
-                        .fill(title);
-       // page.locator(test).selectOption("OPEN");
-        page.locator("//select").first()
-                .selectOption(new SelectOption().setLabel("version"));
-        //page.getByRole(AriaRole.COMBOBOX).selectOption("OPEN");
+        page.locator(".flex.items-start.gap-2.p-2.border.rounded-\\[6px\\].cursor-pointer.transition-all.bg-\\[\\#FAFAFA\\]").click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter article title")).fill(title);
+        page.locator("//select").first().selectOption(new SelectOption().setLabel("version"));;
         page.locator(macroDescriptionn).fill(description);
+        Locator fileInput = page.locator("//input[@id='file-upload']");
+        fileInput.setInputFiles(Paths.get("src/testData/KB4_Helpdesk_KB (1).pdf"));
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Article")).click();
-
-        //page.pause();
-
         return new AgentDashboardPage(page);
     }
 
 
-    public AgentDashboardPage addNewTask() {
+    public AgentDashboardPage addNewTask(String taskTitle,String taskDescription) {
         clickOnNewBtn();
-        page.pause();
-
-
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add Task")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a clear and specific"))
+                        .pressSequentially(taskTitle);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Department")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("IT Department")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Priority")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Critical")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Status")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Open").setExact(true)).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select due Date")).click();
+        page.getByText("5").nth(1).click();
+        page.locator(enterDescription).pressSequentially(taskDescription);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Task")).click();
+        page.waitForTimeout(3000);
         return new AgentDashboardPage(page);
+    }
+
+    public String getKnowledgeableTitle(){
+        page.getByRole(AriaRole.COMPLEMENTARY).getByText("Knowledge Base").click();
+        String knowledgeable_Title = page.textContent(knowledgeableTitle);
+        System.out.println("Knowledgeable title is : "+ knowledgeable_Title);
+        return knowledgeable_Title;
+    }
+
+    public String getTaskTitle(){
+        page.getByRole(AriaRole.COMPLEMENTARY).getByText("Task", new Locator.GetByTextOptions().setExact(true))
+                .click();
+        String task_Title = page.textContent(taskTitle);
+        System.out.println("task title is : "+ task_Title);
+        return task_Title;
     }
 
 
