@@ -32,6 +32,7 @@ public class BaseTest {
         agentDashboardPage = new AgentDashboardPage(page);
         faker = new Faker();
         adminPage = new AdminPage(page);
+        homePage = new HomePage(page);
     }
 
     @AfterTest

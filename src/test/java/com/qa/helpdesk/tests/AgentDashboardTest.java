@@ -49,4 +49,24 @@ public class AgentDashboardTest extends BaseTest {
         agentDashboardPage.createNewMacro(macroTitle,macroDescription);
         Assert.assertEquals(agentDashboardPage.getMacroTitle(),macroTitle,"New Macro is not created");
     }
+
+    @Test
+    public void createNewKnowledgeableTest() {
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+        String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
+        String knowledgeableContent =
+                faker.letterify("Playwright Knowledgeable content. ??????");
+        agentDashboardPage.createNewKnowledgeable(knowledgeableTitle,knowledgeableContent);
+        //Assert.assertEquals(agentDashboardPage.getMacroTitle(),knowledgeableTitle,"New Knowledgeable is not created");
+    }
+
+    @Test
+    public void addNewTaskTest() {
+        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password") );
+//        String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
+//        String knowledgeableContent =
+//                faker.letterify("Playwright Knowledgeable content. ??????");
+        agentDashboardPage.addNewTask();
+        //Assert.assertEquals(agentDashboardPage.getMacroTitle(),knowledgeableTitle,"New Knowledgeable is not created");
+    }
 }
