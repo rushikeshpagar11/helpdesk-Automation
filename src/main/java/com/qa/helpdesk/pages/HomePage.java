@@ -8,13 +8,13 @@ public class HomePage {
 
     private String createTicket = "//div[contains(@class,'hidden lg:flex f')]";
 
-    public HomePage(Page page){
+    public HomePage(Page page) {
         this.page = page;
     }
 
-    public String getHomePageTitle(){
+    public String getHomePageTitle() {
         String title = page.title();
-        System.out.println("page title is : "+ title);
+        System.out.println("page title is : " + title);
         return title;
     }
 

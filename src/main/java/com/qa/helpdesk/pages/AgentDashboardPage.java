@@ -18,7 +18,7 @@ public class AgentDashboardPage {
 
     private String agentDashboardTitle = "//h1[normalize-space()='Help Desk Dashboard']";
     private String newBtn = "//span[text()='New']";
-    private String createTicketBtn ="//button[normalize-space()='Create Ticket']";
+    private String createTicketBtn = "//button[normalize-space()='Create Ticket']";
     private String enterSubject = "//input[@placeholder='Brief description of your issue']";
     private String enterDescription = "//div[@class='ql-editor ql-blank']";
     private String viewBtn = "//button[normalize-space()='View Ticket']";
@@ -33,13 +33,13 @@ public class AgentDashboardPage {
     private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
 
 
-    public AgentDashboardPage(Page page){
+    public AgentDashboardPage(Page page) {
         this.page = page;
     }
 
-    public String getAgentDashboardTitle(){
+    public String getAgentDashboardTitle() {
         String title = page.textContent(agentDashboardTitle);
-        System.out.println("page title is : "+ title);
+        System.out.println("page title is : " + title);
         return title;
     }
 
@@ -53,47 +53,47 @@ public class AgentDashboardPage {
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage selectDepartment(){
-    page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
-    page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
-    return new AgentDashboardPage(page);
+    public AgentDashboardPage selectDepartment() {
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
+        return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage selectType(){
+    public AgentDashboardPage selectType() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Type")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Incident")).click();
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage selectPriority(){
+    public AgentDashboardPage selectPriority() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Priority")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Low")).click();
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage enterSubject(String subject){
+    public AgentDashboardPage enterSubject(String subject) {
         page.fill(enterSubject, subject);
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage enterDescription(String description){
+    public AgentDashboardPage enterDescription(String description) {
         page.fill(enterDescription, description);
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage clickCreateBtn(){
+    public AgentDashboardPage clickCreateBtn() {
         page.locator(createTicketBtn).click();
         return new AgentDashboardPage(page);
     }
 
-    public AgentDashboardPage clickViewBtn(){
+    public AgentDashboardPage clickViewBtn() {
         page.locator(viewBtn).click();
         return new AgentDashboardPage(page);
     }
 
-    public String getTicketTitle(){
+    public String getTicketTitle() {
         String title = page.textContent(ticketTitle);
-        System.out.println("Ticket title is : "+ title);
+        System.out.println("Ticket title is : " + title);
         return title;
     }
 
@@ -104,30 +104,30 @@ public class AgentDashboardPage {
         return new AdminPage(page);
     }
 
-    public AgentDashboardPage createNewUser(String firstname,String lastname,String mobileNumber,String email) {
+    public AgentDashboardPage createNewUser(String firstname, String lastname, String mobileNumber, String email) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add User")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."))
                 .pressSequentially(firstname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
-                        .pressSequentially(lastname);
+                .pressSequentially(lastname);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organization")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
-                        .pressSequentially(mobileNumber);
+                .pressSequentially(mobileNumber);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
-                        .pressSequentially(email);
+                .pressSequentially(email);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create User")).click();
         return new AgentDashboardPage(page);
     }
 
-    public String getUserName(){
+    public String getUserName() {
         String user_Name = page.textContent(userName);
-        System.out.println("UserName is : "+ user_Name);
+        System.out.println("UserName is : " + user_Name);
         return user_Name;
     }
 
-    public AgentDashboardPage createNewMacro(String macroTitle,String macroDescription) {
+    public AgentDashboardPage createNewMacro(String macroTitle, String macroDescription) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Macro")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a title for the macro"))
@@ -139,13 +139,13 @@ public class AgentDashboardPage {
         return new AgentDashboardPage(page);
     }
 
-    public String getMacroTitle(){
+    public String getMacroTitle() {
         String macro_Title = page.textContent(macroTitles);
-        System.out.println("Macro title is : "+ macro_Title);
+        System.out.println("Macro title is : " + macro_Title);
         return macro_Title;
     }
 
-    public AgentDashboardPage createNewKnowledgeable(String title,String description) {
+    public AgentDashboardPage createNewKnowledgeable(String title, String description) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Knowledgeable")).click();
         page.locator(".flex.items-start.gap-2.p-2.border.rounded-\\[6px\\].cursor-pointer.transition-all.bg-\\[\\#FAFAFA\\]").click();
@@ -160,11 +160,11 @@ public class AgentDashboardPage {
     }
 
 
-    public AgentDashboardPage addNewTask(String taskTitle,String taskDescription) {
+    public AgentDashboardPage addNewTask(String taskTitle, String taskDescription) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add Task")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a clear and specific"))
-                        .pressSequentially(taskTitle);
+                .pressSequentially(taskTitle);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Department")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("IT Department")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Priority")).click();
@@ -181,22 +181,22 @@ public class AgentDashboardPage {
         return new AgentDashboardPage(page);
     }
 
-    public String getKnowledgeableTitle(){
+    public String getKnowledgeableTitle() {
         page.getByRole(AriaRole.COMPLEMENTARY).getByText("Knowledge Base").click();
         String knowledgeable_Title = page.textContent(knowledgeableTitle);
-        System.out.println("Knowledgeable title is : "+ knowledgeable_Title);
+        System.out.println("Knowledgeable title is : " + knowledgeable_Title);
         return knowledgeable_Title;
     }
 
-    public String getTaskTitle(){
+    public String getTaskTitle() {
         page.getByRole(AriaRole.COMPLEMENTARY).getByText("Task", new Locator.GetByTextOptions().setExact(true))
                 .click();
         String task_Title = page.textContent(taskTitle);
-        System.out.println("task title is : "+ task_Title);
+        System.out.println("task title is : " + task_Title);
         return task_Title;
     }
 
-    public AgentDashboardPage clickOnFirstUser(){
+    public AgentDashboardPage clickOnFirstUser() {
         page.getByText("Users").click();
         page.locator(userName).click();
         return new AgentDashboardPage(page);
