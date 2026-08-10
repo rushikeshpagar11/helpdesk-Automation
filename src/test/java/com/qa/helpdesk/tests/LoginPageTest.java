@@ -27,7 +27,7 @@ public class LoginPageTest extends BaseTest {
     @Test
     public void userLoginTest() {
         // The page action dynamically fetches the real-time CAPTCHA code!
-        loginPage.userLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         Assert.assertTrue(homePage.isCreateTicketBtnVisible(), "user is not logged in");
 
     }

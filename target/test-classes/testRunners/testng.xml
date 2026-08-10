@@ -1,13 +1,12 @@
 <?xml version ="1.0" encoding = "UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="helpdesk PW Suite" verbose="4">
+<suite name="helpdesk PW Suite" parallel="methods" thread-count="2">
 
 
     <test name="Login page test">
         <classes>
-            <class name="com.qa.helpdesk.tests.LoginPageTest">
-
-            </class>
+            <class name="com.qa.helpdesk.tests.LoginPageTest"/>
+            <class name="com.qa.helpdesk.tests.AgentDashboardTest" />
         </classes>
     </test>
 

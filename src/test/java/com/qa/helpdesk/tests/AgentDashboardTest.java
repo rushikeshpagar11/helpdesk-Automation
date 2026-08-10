@@ -19,21 +19,20 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void agentToAdminPanelSwitchTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username3"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         Assert.assertTrue(adminPage.isEmailTabVisible(), "agent is not redirected to admin panel");
     }
 
     @Test
     public void createUserTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username4"), prop.getProperty("password"));
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         String userName = firstName + " " + lastName;
         String mobile = "9" + faker.number().digits(9);
         String email = firstName.toLowerCase() + "."
                 + lastName.toLowerCase()
-                + System.currentTimeMillis()
                 + "@yopmail.com";
         agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
         Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
@@ -42,7 +41,7 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void createNewMacroTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username5"), prop.getProperty("password"));
         String macroTitle = faker.company().buzzword() + " Macro";
         String macroDescription =
                 faker.letterify("Playwright Macro description. ??????");
@@ -52,7 +51,7 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void createNewKnowledgeableTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username6"), prop.getProperty("password"));
         String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
         String knowledgeableContent =
                 faker.letterify("Playwright Knowledgeable content. ??????");
@@ -62,10 +61,32 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void addNewTaskTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username7"), prop.getProperty("password"));
         String taskTitle = faker.company().buzzword() + " task";
         String taskDescription = faker.letterify("Playwright task description. ??????");
         agentDashboardPage.addNewTask(taskTitle, taskDescription);
         Assert.assertEquals(agentDashboardPage.getTaskTitle(), taskTitle, "New task is not created");
     }
+
+    @Test
+    public void createUserAndViewDetailsTest() {
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String userName = firstName + " " + lastName;
+        String mobile = "9" + faker.number().digits(9);
+        String email = firstName.toLowerCase() + "."
+                + lastName.toLowerCase()
+                + "@yopmail.com";
+        agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
+        Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
+        agentDashboardPage.clickOnFirstUser();
+        agentDashboardPage.verifyTextBoxValue(page, "First Name", firstName);
+        agentDashboardPage.verifyTextBoxValue(page, "Last Name", lastName);
+        agentDashboardPage.verifyTextBoxValue(page, "Enter Mobile Number", mobile);
+        agentDashboardPage.verifyTextBoxValue(page, "Enter Email Address", email);
+    }
+
+
+
 }
