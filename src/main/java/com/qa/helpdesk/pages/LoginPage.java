@@ -18,6 +18,7 @@ public class LoginPage {
     private String getCaptcha = "//img[@alt='captcha']";
     private String enterCaptcha = "//input[@placeholder='Enter The Text Shown Above']";
     private String staffLogin = "//button[text()='Staff Login']";
+    private String reloadCaptcha = "(//*[name()='path'])[2]";
 
     public LoginPage(Page page) {
         this.page = page;
@@ -35,42 +36,105 @@ public class LoginPage {
         return url;
     }
 
+//    public String getDynamicCaptchaText() {
+//        try {
+//            // 1. Intercept response when captcha API is requested by page
+//            Response captchaResponse = page.waitForResponse(
+//                    response -> response.url().contains("/api/auth/captcha") && response.status() == 200,
+//                    () -> {
+//                        if (page.isVisible(getCaptcha)) {
+//                            page.click(getCaptcha);
+//                        }
+//                    }
+//            );
+//
+//            // 2. Extract captchaId
+//            String responseBody = captchaResponse.text();
+//            ObjectMapper mapper = new ObjectMapper();
+//            JsonNode jsonNode = mapper.readTree(responseBody);
+//            String dynamicCaptchaId = jsonNode.get("captchaId").asText();
+//
+//            System.out.println("Captured Dynamic Captcha ID: " + dynamicCaptchaId);
+//
+//            // 3. Make GET request directly to backend endpoint using Playwright request API
+//            String apiUrl = "https://supportdesk-api.atpl.corp/api/auth/captcha/text?captchaId=" + dynamicCaptchaId;
+//            APIResponse apiResponse = page.request().get(apiUrl);
+//
+//            // 4. Parse plain-text captcha code returned from server
+//            JsonNode textJson = mapper.readTree(apiResponse.text());
+//            String captchaText = textJson.get("code").asText();
+//
+//            System.out.println("Fetched Dynamic CAPTCHA Code: " + captchaText);
+//            return captchaText;
+//
+//        } catch (Exception e) {
+//            System.err.println("Failed to dynamically resolve CAPTCHA text: " + e.getMessage());
+//            e.printStackTrace();
+//            return "";
+//        }
+//    }
+
+
     public String getDynamicCaptchaText() {
-        try {
-            // 1. Intercept response when captcha API is requested by page
-            Response captchaResponse = page.waitForResponse(
-                    response -> response.url().contains("/api/auth/captcha") && response.status() == 200,
-                    () -> {
-                        if (page.isVisible(getCaptcha)) {
-                            page.click(getCaptcha);
+        ObjectMapper mapper = new ObjectMapper();
+        int maxRetries = 3;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                System.out.println("Attempt " + attempt + " to fetch CAPTCHA");
+
+                // Wait for captcha response after clicking/reloading
+                int finalAttempt = attempt;
+                Response captchaResponse = page.waitForResponse(
+                        response -> response.url().contains("/api/auth/captcha")
+                                && response.status() == 200,
+                        () -> {
+                            if (finalAttempt == 1) {
+                                page.click(getCaptcha); // Initial captcha load
+                            } else {
+                                page.click(reloadCaptcha); // Reload captcha
+                            }
                         }
-                    }
-            );
+                );
 
-            // 2. Extract captchaId
-            String responseBody = captchaResponse.text();
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(responseBody);
-            String dynamicCaptchaId = jsonNode.get("captchaId").asText();
+                // Extract captchaId
+                JsonNode jsonNode = mapper.readTree(captchaResponse.text());
+                String captchaId = jsonNode.get("captchaId").asText();
 
-            System.out.println("Captured Dynamic Captcha ID: " + dynamicCaptchaId);
+                System.out.println("Captured CAPTCHA ID: " + captchaId);
 
-            // 3. Make GET request directly to backend endpoint using Playwright request API
-            String apiUrl = "https://supportdesk-api.atpl.corp/api/auth/captcha/text?captchaId=" + dynamicCaptchaId;
-            APIResponse apiResponse = page.request().get(apiUrl);
+                // Call captcha text API
+                String apiUrl = "https://supportdesk-api.atpl.corp/api/auth/captcha/text?captchaId=" + captchaId;
+                APIResponse apiResponse = page.request().get(apiUrl);
 
-            // 4. Parse plain-text captcha code returned from server
-            JsonNode textJson = mapper.readTree(apiResponse.text());
-            String captchaText = textJson.get("code").asText();
+                if (!apiResponse.ok()) {
+                    throw new RuntimeException("Captcha text API returned " + apiResponse.status());
+                }
 
-            System.out.println("Fetched Dynamic CAPTCHA Code: " + captchaText);
-            return captchaText;
+                JsonNode textJson = mapper.readTree(apiResponse.text());
 
-        } catch (Exception e) {
-            System.err.println("Failed to dynamically resolve CAPTCHA text: " + e.getMessage());
-            e.printStackTrace();
-            return "";
+                if (textJson.get("code") == null || textJson.get("code").asText().isEmpty()) {
+                    throw new RuntimeException("Captcha code is missing.");
+                }
+
+                String captchaText = textJson.get("code").asText();
+
+                System.out.println("Fetched CAPTCHA Code: " + captchaText);
+                return captchaText;
+
+            } catch (Exception e) {
+                System.err.println("Attempt " + attempt + " failed: " + e.getMessage());
+
+                if (attempt == maxRetries) {
+                    break;
+                }
+
+                // Optional: wait briefly before retrying
+                page.waitForTimeout(500);
+            }
         }
+
+        throw new RuntimeException("Unable to fetch CAPTCHA after " + maxRetries + " attempts.");
     }
 
     public HomePage userLogin(String username, String password) {

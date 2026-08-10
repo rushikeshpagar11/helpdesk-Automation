@@ -7,6 +7,10 @@ import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.SelectOption;
 
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class AgentDashboardPage {
 
@@ -108,7 +112,7 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
                         .pressSequentially(lastname);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organization")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens Inc.")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                         .pressSequentially(mobileNumber);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
@@ -146,7 +150,8 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Knowledgeable")).click();
         page.locator(".flex.items-start.gap-2.p-2.border.rounded-\\[6px\\].cursor-pointer.transition-all.bg-\\[\\#FAFAFA\\]").click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter article title")).fill(title);
-        page.locator("//select").first().selectOption(new SelectOption().setLabel("version"));;
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Category")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("version")).click();
         page.locator(macroDescriptionn).fill(description);
         Locator fileInput = page.locator("//input[@id='file-upload']");
         fileInput.setInputFiles(Paths.get("src/testData/KB4_Helpdesk_KB (1).pdf"));
@@ -165,9 +170,11 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Priority")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Critical")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Status")).click();
+
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Open").setExact(true)).click();
+
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select due Date")).click();
-        page.getByText("5").nth(1).click();
+        page.getByText("6").nth(2).click();
         page.locator(enterDescription).pressSequentially(taskDescription);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Task")).click();
         page.waitForTimeout(3000);
@@ -187,6 +194,19 @@ public class AgentDashboardPage {
         String task_Title = page.textContent(taskTitle);
         System.out.println("task title is : "+ task_Title);
         return task_Title;
+    }
+
+    public AgentDashboardPage clickOnFirstUser(){
+        page.getByText("Users").click();
+        page.locator(userName).click();
+        return new AgentDashboardPage(page);
+    }
+
+    public void verifyTextBoxValue(Page page, String fieldName, String expectedValue) {
+        assertThat(
+                page.getByRole(AriaRole.TEXTBOX,
+                        new Page.GetByRoleOptions().setName(fieldName))
+        ).hasValue(expectedValue);
     }
 
 
