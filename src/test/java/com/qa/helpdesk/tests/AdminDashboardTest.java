@@ -37,7 +37,7 @@ public class AdminDashboardTest extends BaseTest {
         agentDashboardPage.clickSwitchToAdminBtn();
         String teamName = faker.name().firstName();
         String agentName = prop.getProperty("username1");
-        adminPage.createNewTeam(teamName,agentName);
+        adminPage.createNewTeam(teamName, agentName);
         Assert.assertEquals(adminPage.searchAndGetTeamName(teamName), teamName, "Team is not created");
     }
 }
