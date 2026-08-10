@@ -33,33 +33,33 @@ public class AdminPage {
     }
 
 
-    public AdminPage createNewAgent(String firstname,String lastname,String mobileNumber,String email) {
+    public AdminPage createNewAgent(String firstname, String lastname, String mobileNumber, String email) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Agent")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."))
-                        .pressSequentially(firstname);
+                .pressSequentially(firstname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
-                        .pressSequentially(lastname);
+                .pressSequentially(lastname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Organization..."))
-                        .click();
+                .click();
         page.getByText("Bravens").click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("e.g. Agent/Admin"))
-                        .pressSequentially("Agent");
+                .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
         page.getByText("Support", new Page.GetByTextOptions().setExact(true)).click();
         page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(3)
-                        .click();
+                .click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
-                        .pressSequentially(mobileNumber);
+                .pressSequentially(mobileNumber);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
-                        .pressSequentially(email);
+                .pressSequentially(email);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Agent")).click();
         return new AdminPage(page);
     }
 
-    public String getUserName(){
+    public String getUserName() {
         String user_Name = page.textContent(userName);
-        System.out.println("UserName is : "+ user_Name);
+        System.out.println("UserName is : " + user_Name);
         return user_Name;
     }
 
@@ -67,7 +67,7 @@ public class AdminPage {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Department")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Department Name..."))
-                        .pressSequentially(departmentName);
+                .pressSequentially(departmentName);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).first().click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(1).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(2).click();
@@ -76,15 +76,15 @@ public class AdminPage {
         return new AdminPage(page);
     }
 
-    public String searchAndGetDepartmentName(String dept){
+    public String searchAndGetDepartmentName(String dept) {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Title...")).pressSequentially(dept);
         page.waitForTimeout(1000);
         String department_Name = page.textContent(departmentName);
-        System.out.println("Department Name is : "+ department_Name);
+        System.out.println("Department Name is : " + department_Name);
         return department_Name;
     }
 
-    public AdminPage createNewTeam(String teamName,String agentName) {
+    public AdminPage createNewTeam(String teamName, String agentName) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add Team")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Team Name..."))
@@ -100,11 +100,11 @@ public class AdminPage {
         return new AdminPage(page);
     }
 
-    public String searchAndGetTeamName(String team){
+    public String searchAndGetTeamName(String team) {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Title...")).pressSequentially(team);
         page.waitForTimeout(1000);
         String team_Name = page.textContent(departmentName);
-        System.out.println("Team Name is : "+ team_Name);
+        System.out.println("Team Name is : " + team_Name);
         return team_Name;
     }
 
