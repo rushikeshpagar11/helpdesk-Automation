@@ -9,6 +9,11 @@ public class HomePage {
 
     private String createTicket = "//div[contains(@class,'hidden lg:flex f')]";
     private String ticketTitle ="div[class='text-[14px] font-medium text-heading truncate cursor-pointer block w-full']";
+    private String ticketTitleOnStandalonePage = "h1[class='text-[24px] font-semibold leading-[32px] tracking-[0em] text-label break-all whitespace-pre-wrap']";
+    private String viewAllTicketsCard = "//h3[text()='View All Tickets']";
+    private String helpArticleCard = "//h3[text()='Help Articles']";
+    private String FAQCard = "//h3[text()='FAQ']";
+
 
     public HomePage(Page page) {
         this.page = page;
@@ -43,7 +48,45 @@ public class HomePage {
     public String getTicketTitle() {
         page.waitForTimeout(1000);
         String ticket_title = page.textContent(ticketTitle);
-        System.out.println("Access Name is : " + ticket_title);
+        System.out.println("Ticket title is : " + ticket_title);
         return ticket_title;
+    }
+
+    public HomePage createAndViewTicket(String subject,String Description){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Type")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Issue")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Priority")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Low")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Brief description of your"))
+                .pressSequentially(subject);
+        page.locator(".ql-editor").pressSequentially(Description);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).nth(1).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("View Ticket")).click();
+        return new HomePage(page);
+    }
+
+    public String getTicketTitleOnStandalonePage() {
+        page.waitForTimeout(1000);
+        String ticket_title = page.textContent(ticketTitleOnStandalonePage);
+        System.out.println("ticket title is : " + ticket_title);
+        return ticket_title;
+    }
+
+    public boolean isViewAllTicketsCardVisible() {
+        page.waitForTimeout(1000);
+        return page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("View All Tickets")).isVisible();
+    }
+
+    public boolean isHelpArticleCardVisible() {
+        page.waitForTimeout(1000);
+        return page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("Help Articles")).isVisible();
+    }
+
+    public boolean isFAQCardVisible() {
+        page.waitForTimeout(1000);
+        return page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("FAQ")).isVisible();
     }
 }
