@@ -4,11 +4,8 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.SelectOption;
 
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -29,7 +26,7 @@ public class AgentDashboardPage {
     private String test = "select[class='w-full h-[45px] border border-border-default rounded-md px-4 text-[14px] appearance-none focus:outline-none focus:border-primary transition-all bg-white text-placeholder']";
     private String macroTitles = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) span:nth-child(1)";
     private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
-    private String knowledgeableTitle = "//tbody/tr[1]/td[2]/div[1]/div[1]";
+    private String knowledgeableTitle = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(1)";
     private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
 
 
@@ -112,7 +109,7 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
                 .pressSequentially(lastname);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organization")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Bravens")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ampcus Tech").setExact(true)).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                 .pressSequentially(mobileNumber);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
@@ -183,6 +180,7 @@ public class AgentDashboardPage {
 
     public String getKnowledgeableTitle() {
         page.getByRole(AriaRole.COMPLEMENTARY).getByText("Knowledge Base").click();
+        page.waitForTimeout(1000);
         String knowledgeable_Title = page.textContent(knowledgeableTitle);
         System.out.println("Knowledgeable title is : " + knowledgeable_Title);
         return knowledgeable_Title;

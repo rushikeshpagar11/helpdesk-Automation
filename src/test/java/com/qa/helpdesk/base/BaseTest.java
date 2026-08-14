@@ -8,9 +8,7 @@ import com.qa.helpdesk.pages.AgentDashboardPage;
 import com.qa.helpdesk.pages.HomePage;
 import com.qa.helpdesk.pages.LoginPage;
 import net.datafaker.Faker;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 
 import java.util.Properties;
 
@@ -26,7 +24,7 @@ public class BaseTest {
     protected Faker faker;
     protected AdminPage adminPage;
 
-    @BeforeTest
+    @BeforeMethod
     public void setup() {
         playwrightFactory = new PlaywrightFactory();
         prop = playwrightFactory.init_prop();
@@ -38,7 +36,7 @@ public class BaseTest {
         homePage = new HomePage(page);
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
         if (page != null) {
             page.context().browser().close();

@@ -42,7 +42,7 @@ public class AdminPage {
                 .pressSequentially(lastname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Organization..."))
                 .click();
-        page.getByText("Bravens").click();
+        page.getByText("Ampcus Tech", new Page.GetByTextOptions().setExact(true)).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("e.g. Agent/Admin"))
                 .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
@@ -108,5 +108,63 @@ public class AdminPage {
         return team_Name;
     }
 
+    public AdminPage createNewAccess(String accessName) {
+        clickOnNewBtn();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Access")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Access Name..."))
+                .pressSequentially(accessName);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Permissions")).click();
+        page.locator(".w-\\[18px\\]").first().click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Save")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Access")).click();
+        return new AdminPage(page);
+    }
+
+    public String searchAndGetAccessName(String access) {
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Title...")).pressSequentially(access);
+        page.waitForTimeout(1000);
+        String access_Name = page.textContent(departmentName);
+        System.out.println("Access Name is : " + access_Name);
+        return access_Name;
+    }
+
+    public AdminPage createNewOrganisation(String organisationName,String organisationSignature,
+                                           String address,String city,String zip,String phoneNumber) {
+        clickOnNewBtn();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Organization")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Your Organization Name"))
+                .pressSequentially(organisationName);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select SLA")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("P1")).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add department..."))
+                .click();
+        page.getByText("Helpdesk").click();
+        page.locator(".ql-editor").pressSequentially(organisationSignature);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter your full address"))
+                .pressSequentially(address);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select country")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Afghanistan")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select State / Province")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Badakhshan")).click();
+
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a City."))
+                .pressSequentially(city);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a Postal code."))
+                .pressSequentially(zip);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter phone number"))
+                .pressSequentially(phoneNumber);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Organization"))
+                .click();
+        return new AdminPage(page);
+    }
+
+    public String searchAndGetOrganisationName(String organization) {
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Organization..."))
+                .pressSequentially(organization);
+        page.waitForTimeout(1000);
+        String organization_Name = page.textContent(departmentName);
+        System.out.println("Organization Name is : " + organization_Name);
+        return organization_Name;
+    }
 
 }

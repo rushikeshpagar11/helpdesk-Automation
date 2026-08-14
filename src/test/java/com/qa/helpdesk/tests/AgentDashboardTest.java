@@ -51,10 +51,9 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void createNewKnowledgeableTest() {
-        loginPage.agentLogin(prop.getProperty("username6"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         String knowledgeableTitle = faker.company().buzzword() + " Knowledgeable";
-        String knowledgeableContent =
-                faker.letterify("Playwright Knowledgeable content. ??????");
+        String knowledgeableContent = "Playwright Knowledgeable content "+ faker.lorem().paragraphs(2);
         agentDashboardPage.createNewKnowledgeable(knowledgeableTitle, knowledgeableContent);
         Assert.assertEquals(agentDashboardPage.getKnowledgeableTitle(), knowledgeableTitle, "New Knowledgeable is not created");
     }
