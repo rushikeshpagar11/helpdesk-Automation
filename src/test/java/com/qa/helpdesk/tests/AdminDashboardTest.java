@@ -24,9 +24,9 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createDepartmentTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
-        String departmentName = faker.name().firstName();
+        String departmentName = faker.name().firstName()+"Department";
         adminPage.createNewDepartment(departmentName);
         Assert.assertEquals(adminPage.searchAndGetDepartmentName(departmentName), departmentName, "Department is not created");
     }
@@ -35,9 +35,32 @@ public class AdminDashboardTest extends BaseTest {
     public void createTeamTest() {
         loginPage.agentLogin(prop.getProperty("username1"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
-        String teamName = faker.name().firstName();
+        String teamName = faker.name().firstName() + " Team";
         String agentName = prop.getProperty("username1");
         adminPage.createNewTeam(teamName, agentName);
         Assert.assertEquals(adminPage.searchAndGetTeamName(teamName), teamName, "Team is not created");
+    }
+
+    @Test
+    public void createAccessTest() {
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        agentDashboardPage.clickSwitchToAdminBtn();
+        String accessName = faker.name().firstName() + "Access";
+        adminPage.createNewAccess(accessName);
+        Assert.assertEquals(adminPage.searchAndGetAccessName(accessName), accessName, "Access is not created");
+    }
+
+    @Test
+    public void createOrganisationTest() {
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        agentDashboardPage.clickSwitchToAdminBtn();
+        String organisationName = faker.company().name();
+        String orgSignature = faker.name().firstName();
+        String address = faker.address().fullAddress();
+        String city = faker.address().city();
+        String zipCode = "2" + faker.number().digits(5);;
+        String mobile = "9" + faker.number().digits(9);
+        adminPage.createNewOrganisation(organisationName,orgSignature,address,city,zipCode,mobile);
+        Assert.assertEquals(adminPage.searchAndGetOrganisationName(organisationName), organisationName, "Organization is not created");
     }
 }
