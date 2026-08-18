@@ -8,7 +8,7 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createAgentTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
@@ -33,7 +33,7 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createTeamTest() {
-        loginPage.agentLogin(prop.getProperty("username1"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String teamName = faker.name().firstName() + " Team";
         String agentName = prop.getProperty("username1");

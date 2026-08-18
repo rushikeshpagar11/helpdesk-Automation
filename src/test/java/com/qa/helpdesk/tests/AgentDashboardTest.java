@@ -8,7 +8,7 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void createTicketTest() {
-        loginPage.agentLogin(prop.getProperty("username"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         String subject = faker.book().title();
         String description = faker.company().catchPhrase();
         agentDashboardPage.createNewTktBtn().selectDepartment().selectType()
@@ -19,14 +19,14 @@ public class AgentDashboardTest extends BaseTest {
 
     @Test
     public void agentToAdminPanelSwitchTest() {
-        loginPage.agentLogin(prop.getProperty("username3"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         Assert.assertTrue(adminPage.isEmailTabVisible(), "agent is not redirected to admin panel");
     }
 
     @Test
     public void createUserTest() {
-        loginPage.agentLogin(prop.getProperty("username4"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         String userName = firstName + " " + lastName;
@@ -84,6 +84,22 @@ public class AgentDashboardTest extends BaseTest {
         agentDashboardPage.verifyTextBoxValue(page, "Last Name", lastName);
         agentDashboardPage.verifyTextBoxValue(page, "Enter Mobile Number", mobile);
         agentDashboardPage.verifyTextBoxValue(page, "Enter Email Address", email);
+    }
+
+    @Test
+    public void createUserAndDeleteTest() {
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String userName = firstName + " " + lastName;
+        String mobile = "9" + faker.number().digits(9);
+        String email = firstName.toLowerCase() + "."
+                + lastName.toLowerCase()
+                + "@yopmail.com";
+        agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
+        agentDashboardPage.searchAndDeleteUser(email);
+        //Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
+
     }
 
 

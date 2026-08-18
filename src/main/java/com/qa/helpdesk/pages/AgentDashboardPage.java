@@ -6,6 +6,7 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 
 import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -28,6 +29,7 @@ public class AgentDashboardPage {
     private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
     private String knowledgeableTitle = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(1)";
     private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
+    private String deleteUserCheckBox = "body > div:nth-child(12) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > div:nth-child(1)";
 
 
     public AgentDashboardPage(Page page) {
@@ -205,6 +207,19 @@ public class AgentDashboardPage {
                 page.getByRole(AriaRole.TEXTBOX,
                         new Page.GetByRoleOptions().setName(fieldName))
         ).hasValue(expectedValue);
+    }
+
+    public AgentDashboardPage searchAndDeleteUser(String email) {
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Users..."))
+                .pressSequentially(email);
+        page.waitForTimeout(1000);
+        page.locator(deleteUserCheckBox).click();
+        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(2)
+                .click();
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Yes, Delete")).click();
+
+        return new AgentDashboardPage(page);
     }
 
 
