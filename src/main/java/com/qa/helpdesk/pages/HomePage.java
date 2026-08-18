@@ -1,7 +1,10 @@
 package com.qa.helpdesk.pages;
 
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+
+import java.util.regex.Pattern;
 
 public class HomePage {
 
@@ -15,6 +18,9 @@ public class HomePage {
     private String FAQCard = "//h3[text()='FAQ']";
     private String downloadForWindowsBtn = "(//span[normalize-space()='Download for Windows'])[1]";
     private String downloadForMacOSBtn = "(//span[normalize-space()='Download for macOS'])[1]";
+    private String signatureDescription = "//div[@class='ql-editor ql-blank']";
+    private String signatureTitle = "h4[class='text-[14px] font-medium text-heading']";
+    private String deleteSignatureBtn = "button[class='p-2 border border-border-default rounded-md bg-white text-heading hover:bg-[#FFF5F5] hover:border-[#D91616] hover:text-[#D91616] transition-all group'] svg";
 
 
     public HomePage(Page page) {
@@ -106,4 +112,53 @@ public class HomePage {
         page.waitForTimeout(1000);
         return page.locator(downloadForMacOSBtn).isVisible();
     }
+
+    public HomePage clickOnProfile(){
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("User")).click();
+        return new HomePage(page);
+    }
+
+    public HomePage clickOnMyProfileBtn(){
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("My Profile")).click();
+        return new HomePage(page);
+    }
+
+    public HomePage clickSignatureBtn(){
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Signature")).click();
+        return new HomePage(page);
+    }
+
+    public HomePage clickAddNewSignatureBtn(){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add New Signatures")).click();
+        return new HomePage(page);
+    }
+
+    public HomePage addTitleAndDescriptionSignature(String signatureTitle,String signatureDescriptionn){
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add signature name"))
+                .pressSequentially(signatureTitle);
+        page.locator(signatureDescription).pressSequentially(signatureDescriptionn);
+        return new HomePage(page);
+    }
+
+    public HomePage clickAddSignatureBtn(){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add Signature")).click();
+        return new HomePage(page);
+    }
+
+    public String getSignatureTitle() {
+        page.waitForTimeout(1000);
+        String signature_title = page.textContent(signatureTitle);
+        System.out.println("Signature title is : " + signature_title);
+        return signature_title;
+    }
+
+    public HomePage deleteSignatureBtn(){
+        page.locator(deleteSignatureBtn).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Yes, Delete")).click();
+        return new HomePage(page);
+    }
+
+
+
 }

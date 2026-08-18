@@ -40,4 +40,18 @@ public class UserDashboardTest extends BaseTest {
         Assert.assertTrue(homePage.isDownloadForMacOSBtn(),"Download for MAC OS button not visible");
     }
 
+    @Test
+    public void createSignatureTest() {
+        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        String signatureTitle = faker.lorem().sentence();
+        String signatureDescription = faker.lorem().paragraph();
+
+        homePage.clickOnProfile().clickOnMyProfileBtn().clickSignatureBtn()
+                        .clickAddNewSignatureBtn()
+                        .addTitleAndDescriptionSignature(signatureTitle,signatureDescription)
+                        .clickAddSignatureBtn();
+        Assert.assertEquals(homePage.getSignatureTitle(),signatureTitle,"Signature is not created");
+        homePage.deleteSignatureBtn();
+    }
+
 }
