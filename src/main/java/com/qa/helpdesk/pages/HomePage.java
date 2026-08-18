@@ -13,6 +13,8 @@ public class HomePage {
     private String viewAllTicketsCard = "//h3[text()='View All Tickets']";
     private String helpArticleCard = "//h3[text()='Help Articles']";
     private String FAQCard = "//h3[text()='FAQ']";
+    private String downloadForWindowsBtn = "(//span[normalize-space()='Download for Windows'])[1]";
+    private String downloadForMacOSBtn = "(//span[normalize-space()='Download for macOS'])[1]";
 
 
     public HomePage(Page page) {
@@ -88,5 +90,20 @@ public class HomePage {
     public boolean isFAQCardVisible() {
         page.waitForTimeout(1000);
         return page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("FAQ")).isVisible();
+    }
+
+    public HomePage clickOnArcLinkButton(){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("ArcLink Logo ArcLink")).click();
+        return new HomePage(page);
+    }
+
+    public boolean isDownloadForWindowsBtn() {
+        page.waitForTimeout(1000);
+        return page.locator(downloadForWindowsBtn).isVisible();
+    }
+
+    public boolean isDownloadForMacOSBtn() {
+        page.waitForTimeout(1000);
+        return page.locator(downloadForMacOSBtn).isVisible();
     }
 }

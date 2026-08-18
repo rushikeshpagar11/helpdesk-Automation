@@ -31,4 +31,13 @@ public class UserDashboardTest extends BaseTest {
         Assert.assertTrue(homePage.isHelpArticleCardVisible(),"Help Article card is not visible");
         Assert.assertTrue(homePage.isFAQCardVisible(),"FAQ card is not visible");
     }
+
+    @Test
+    public void arcLinkTabTest() {
+        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        homePage.clickOnArcLinkButton();
+        Assert.assertTrue(homePage.isDownloadForWindowsBtn(),"Download for windows button not visible");
+        Assert.assertTrue(homePage.isDownloadForMacOSBtn(),"Download for MAC OS button not visible");
+    }
+
 }
