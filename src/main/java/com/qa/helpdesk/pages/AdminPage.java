@@ -46,7 +46,7 @@ public class AdminPage {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("e.g. Agent/Admin"))
                 .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
-        page.getByText("Support", new Page.GetByTextOptions().setExact(true)).click();
+        page.getByText("FINANCE", new Page.GetByTextOptions().setExact(true)).click();
         page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(3)
                 .click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
