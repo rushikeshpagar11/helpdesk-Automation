@@ -10,6 +10,7 @@ import com.qa.helpdesk.pages.LoginPage;
 import net.datafaker.Faker;
 import org.testng.annotations.*;
 
+import java.util.Locale;
 import java.util.Properties;
 
 @Listeners(TestListener.class)
@@ -31,7 +32,7 @@ public class BaseTest {
         page = playwrightFactory.initBrowser(prop);
         loginPage = new LoginPage(page);
         agentDashboardPage = new AgentDashboardPage(page);
-        faker = new Faker();
+        faker = new Faker(new Locale("en", "US"));
         adminPage = new AdminPage(page);
         homePage = new HomePage(page);
     }
