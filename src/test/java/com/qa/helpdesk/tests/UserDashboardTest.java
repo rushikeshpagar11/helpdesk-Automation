@@ -54,4 +54,15 @@ public class UserDashboardTest extends BaseTest {
         homePage.deleteSignatureBtn();
     }
 
+    @Test
+    public void createTicketErrorMsgTest() {
+        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        homePage.createTicketBtn();
+        Assert.assertTrue(homePage.departmentErrorIsVisible(),"department is mandatory error is not shown");
+        Assert.assertTrue(homePage.typeErrorIsVisible(),"type is mandatory error is not shown");
+        Assert.assertTrue(homePage.priorityErrorIsVisible(),"priority is mandatory error is not shown");
+        Assert.assertTrue(homePage.subjectErrorIsVisible(),"subject is mandatory error is not shown");
+        Assert.assertTrue(homePage.descriptionErrorIsVisible(),"description is mandatory error is not shown");
+    }
+
 }

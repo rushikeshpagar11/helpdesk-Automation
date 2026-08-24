@@ -4,8 +4,6 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 
-import java.util.regex.Pattern;
-
 public class HomePage {
 
     private Page page;
@@ -21,6 +19,7 @@ public class HomePage {
     private String signatureDescription = "//div[@class='ql-editor ql-blank']";
     private String signatureTitle = "h4[class='text-[14px] font-medium text-heading']";
     private String deleteSignatureBtn = "button[class='p-2 border border-border-default rounded-md bg-white text-heading hover:bg-[#FFF5F5] hover:border-[#D91616] hover:text-[#D91616] transition-all group'] svg";
+    private String mandatoryMsgonTicket = "private String signatureTitle = \"h4[class='text-[14px] font-medium text-heading']\";";
 
 
     public HomePage(Page page) {
@@ -163,6 +162,48 @@ public class HomePage {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Logout")).click();
         return new HomePage(page);
     }
+
+    public HomePage createTicketBtn(){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).nth(1).click();
+        return new HomePage(page);
+    }
+
+    public String getMandatoryMsg() {
+        page.waitForTimeout(1000);
+        String mandatory_msg = page.textContent(mandatoryMsgonTicket);
+        System.out.println("Signature title is : " + mandatory_msg);
+        return mandatory_msg;
+    }
+
+    public boolean departmentErrorIsVisible() {
+       return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        ).filter(new Locator.FilterOptions().setHasText("Please select a department")).isVisible();
+    }
+
+    public boolean typeErrorIsVisible() {
+        return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        ).filter(new Locator.FilterOptions().setHasText("Please select a request type")).isVisible();
+    }
+
+    public boolean priorityErrorIsVisible() {
+        return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        ).filter(new Locator.FilterOptions().setHasText("Please select a priority")).isVisible();
+    }
+
+    public boolean subjectErrorIsVisible() {
+        return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        ).filter(new Locator.FilterOptions().setHasText("Subject is required")).isVisible();
+    }
+
+    public boolean descriptionErrorIsVisible() {
+        return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        ).filter(new Locator.FilterOptions().setHasText("Description is required")).isVisible();
+    }
+
+
+
+
 
 
 }
