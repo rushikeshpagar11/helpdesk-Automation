@@ -159,6 +159,10 @@ public class HomePage {
         return new HomePage(page);
     }
 
+    public HomePage clickOnLogoutBtn(){
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Logout")).click();
+        return new HomePage(page);
+    }
 
 
 }

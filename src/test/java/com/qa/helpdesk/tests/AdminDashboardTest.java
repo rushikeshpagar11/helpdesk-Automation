@@ -63,4 +63,27 @@ public class AdminDashboardTest extends BaseTest {
         adminPage.createNewOrganisation(organisationName,orgSignature,address,city,zipCode,mobile);
         Assert.assertEquals(adminPage.searchAndGetOrganisationName(organisationName), organisationName, "Organization is not created");
     }
+
+
+    @Test
+    public void createAgentAndCompleteOnboardingTest() {
+        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        agentDashboardPage.clickSwitchToAdminBtn();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String userName = firstName + " " + lastName;
+        String mobile = "9" + faker.number().digits(9);
+        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@yopmail.com";
+        adminPage.createNewAgent(firstName, lastName, mobile, email);
+        homePage.clickOnProfile().clickOnLogoutBtn();
+        String onboardingUrl = emailHelper.clickSetMyPassword(email);
+        System.out.println("Onboarding URL: " + onboardingUrl);
+        page.navigate(onboardingUrl);
+
+        setPasswordPage.enterPassword(prop.getProperty("password")).clickActivateBtn();
+        getPage().pause();
+        //getPage().pause();
+        //Assert.assertEquals(adminPage.getUserName(), userName, "Agent is not created");
+
+    }
 }
