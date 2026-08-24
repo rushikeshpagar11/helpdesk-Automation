@@ -3,10 +3,7 @@ package com.qa.helpdesk.base;
 import com.microsoft.playwright.Page;
 import com.qa.helpdesk.factory.PlaywrightFactory;
 import com.qa.helpdesk.listners.TestListener;
-import com.qa.helpdesk.pages.AdminPage;
-import com.qa.helpdesk.pages.AgentDashboardPage;
-import com.qa.helpdesk.pages.HomePage;
-import com.qa.helpdesk.pages.LoginPage;
+import com.qa.helpdesk.pages.*;
 import net.datafaker.Faker;
 import org.testng.annotations.*;
 
@@ -24,6 +21,8 @@ public class BaseTest {
     protected AgentDashboardPage agentDashboardPage;
     protected Faker faker;
     protected AdminPage adminPage;
+    protected EmailHelper emailHelper;
+    protected SetPasswordPage setPasswordPage;
 
     @BeforeMethod
     public void setup() {
@@ -35,6 +34,8 @@ public class BaseTest {
         faker = new Faker(new Locale("en", "US"));
         adminPage = new AdminPage(page);
         homePage = new HomePage(page);
+        emailHelper = new EmailHelper(page);
+        setPasswordPage = new SetPasswordPage(page);
     }
 
     @AfterMethod

@@ -47,7 +47,7 @@ public class AdminPage {
                 .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
         page.getByText("FINANCE", new Page.GetByTextOptions().setExact(true)).click();
-        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(3)
+        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(4)
                 .click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                 .pressSequentially(mobileNumber);
@@ -68,10 +68,10 @@ public class AdminPage {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Department")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Department Name..."))
                 .pressSequentially(departmentName);
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).first().click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(1).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(2).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(3).click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).first().click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(1).click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(2).click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("System Default")).nth(3).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Department")).click();
         return new AdminPage(page);
     }
