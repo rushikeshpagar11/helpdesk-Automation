@@ -2,10 +2,12 @@ package com.qa.helpdesk.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.AriaRole;
 
 public class SetPasswordPage {
 
     private Page page;
+    private String goToLoginBtn = "//button[text()='Go to Login']";
 
     public SetPasswordPage(Page page) {
         this.page = page;
@@ -15,23 +17,11 @@ public class SetPasswordPage {
 
         System.out.println("Current URL: " + page.url());
 
-        // Print all input elements on the page
-        System.out.println("Input count: " + page.locator("input").count());
+        Locator passwordField =
+                page.locator("input[type='password']").nth(0);
 
-        for (int i = 0; i < page.locator("input").count(); i++) {
-            Locator input = page.locator("input").nth(i);
-
-            System.out.println(
-                    "INPUT " + i +
-                            " | type=" + input.getAttribute("type") +
-                            " | name=" + input.getAttribute("name") +
-                            " | placeholder=" + input.getAttribute("placeholder") +
-                            " | id=" + input.getAttribute("id")
-            );
-        }
-
-        Locator passwordField = page.locator("input[type='password']").nth(0);
-        Locator confirmPasswordField = page.locator("input[type='password']").nth(1);
+        Locator confirmPasswordField =
+                page.locator("input[type='password']").nth(1);
 
         passwordField.waitFor(
                 new Locator.WaitForOptions()
@@ -43,13 +33,13 @@ public class SetPasswordPage {
                         .setTimeout(15000)
         );
 
-        passwordField.click();
         passwordField.fill(password);
-
-        confirmPasswordField.click();
         confirmPasswordField.fill(password);
 
-        System.out.println("Password entered successfully");
+        System.out.println(
+                "Password entered. Value length: "
+                        + passwordField.inputValue().length()
+        );
 
         return this;
     }
@@ -57,7 +47,7 @@ public class SetPasswordPage {
     public SetPasswordPage clickActivateBtn() {
 
         Locator activateButton = page.getByRole(
-                com.microsoft.playwright.options.AriaRole.BUTTON,
+                AriaRole.BUTTON,
                 new Page.GetByRoleOptions()
                         .setName("Activate Account")
         );
@@ -71,7 +61,9 @@ public class SetPasswordPage {
 
         return this;
     }
+
+    public LoginPage clickGoToLoginBtn(){
+        page.locator(goToLoginBtn).click();
+        return new LoginPage(page);
+    }
 }
-
-
-

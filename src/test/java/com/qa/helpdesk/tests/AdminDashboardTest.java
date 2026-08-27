@@ -1,6 +1,9 @@
 package com.qa.helpdesk.tests;
 
+import com.microsoft.playwright.Page;
 import com.qa.helpdesk.base.BaseTest;
+import com.qa.helpdesk.pages.LoginPage;
+import com.qa.helpdesk.pages.SetPasswordPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -67,23 +70,34 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createAgentAndCompleteOnboardingTest() {
+
         loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+
         agentDashboardPage.clickSwitchToAdminBtn();
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         String userName = firstName + " " + lastName;
         String mobile = "9" + faker.number().digits(9);
         String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@yopmail.com";
+
         adminPage.createNewAgent(firstName, lastName, mobile, email);
         homePage.clickOnProfile().clickOnLogoutBtn();
-        String onboardingUrl = emailHelper.clickSetMyPassword(email);
-        System.out.println("Onboarding URL: " + onboardingUrl);
-        page.navigate(onboardingUrl);
+
+        Page onboardingPage = page.context().waitForPage(() -> {emailHelper.clickSetMyPassword(email);});
+
+        onboardingPage.waitForLoadState();
+
+        System.out.println("Onboarding URL: " + onboardingPage.url());
+
+        SetPasswordPage setPasswordPage = new SetPasswordPage(onboardingPage);
 
         setPasswordPage.enterPassword(prop.getProperty("password")).clickActivateBtn();
-        getPage().pause();
-        //getPage().pause();
-        //Assert.assertEquals(adminPage.getUserName(), userName, "Agent is not created");
 
+        setPasswordPage.clickGoToLoginBtn();
+        LoginPage onboardingLoginPage =
+                new LoginPage(onboardingPage);
+        onboardingLoginPage.userLogin(email, prop.getProperty("password"));
+        Assert.assertTrue(homePage.isCreateTicketBtnVisible(), "user is not logged in");
     }
+
 }
