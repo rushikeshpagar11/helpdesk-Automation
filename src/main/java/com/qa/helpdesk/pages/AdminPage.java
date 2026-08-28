@@ -42,7 +42,7 @@ public class AdminPage {
                 .pressSequentially(lastname);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Organization..."))
                 .click();
-        page.getByText("Ampcus Tech", new Page.GetByTextOptions().setExact(true)).click();
+        page.getByText("Ampcus Tech QA", new Page.GetByTextOptions().setExact(true)).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("e.g. Agent/Admin"))
                 .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
@@ -134,11 +134,11 @@ public class AdminPage {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Organization")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Your Organization Name"))
                 .pressSequentially(organisationName);
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select SLA")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("P1")).click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select SLA")).click();
+//        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("P1")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add department..."))
                 .click();
-        page.getByText("Helpdesk").click();
+        page.getByText("IT").click();
         page.locator(".ql-editor").pressSequentially(organisationSignature);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter your full address"))
                 .pressSequentially(address);

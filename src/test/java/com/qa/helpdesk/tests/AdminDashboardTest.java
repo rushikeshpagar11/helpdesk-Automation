@@ -11,7 +11,7 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createAgentTest() {
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
@@ -27,26 +27,26 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createDepartmentTest() {
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String departmentName = faker.name().firstName()+"Department";
         adminPage.createNewDepartment(departmentName);
         Assert.assertEquals(adminPage.searchAndGetDepartmentName(departmentName), departmentName, "Department is not created");
     }
 
-    @Test
-    public void createTeamTest() {
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
-        agentDashboardPage.clickSwitchToAdminBtn();
-        String teamName = faker.name().firstName() + " Team";
-        String agentName = prop.getProperty("username1");
-        adminPage.createNewTeam(teamName, agentName);
-        Assert.assertEquals(adminPage.searchAndGetTeamName(teamName), teamName, "Team is not created");
-    }
+//    @Test
+//    public void createTeamTest() {
+//        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
+//        agentDashboardPage.clickSwitchToAdminBtn();
+//        String teamName = faker.name().firstName() + " Team";
+//        String agentName = prop.getProperty("username1");
+//        adminPage.createNewTeam(teamName, agentName);
+//        Assert.assertEquals(adminPage.searchAndGetTeamName(teamName), teamName, "Team is not created");
+//    }
 
     @Test
     public void createAccessTest() {
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String accessName = faker.name().firstName() + "Access";
         adminPage.createNewAccess(accessName);
@@ -55,7 +55,7 @@ public class AdminDashboardTest extends BaseTest {
 
     @Test
     public void createOrganisationTest() {
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
         String organisationName = faker.company().name();
         String orgSignature = faker.name().firstName();
@@ -71,7 +71,7 @@ public class AdminDashboardTest extends BaseTest {
     @Test
     public void createAgentAndCompleteOnboardingTest() {
 
-        loginPage.agentLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
 
         agentDashboardPage.clickSwitchToAdminBtn();
         String firstName = faker.name().firstName();

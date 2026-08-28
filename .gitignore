@@ -1,0 +1,5 @@
+# Maven
+target/
+
+# Playwright failure screenshots
+src/failureScreenShots/

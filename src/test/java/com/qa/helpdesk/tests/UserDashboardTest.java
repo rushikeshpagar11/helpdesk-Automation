@@ -8,16 +8,16 @@ public class UserDashboardTest extends BaseTest {
 
     @Test
     public void createTicketTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
-        String subject = faker.lorem().sentence();
-        String description = faker.lorem().paragraph();
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
+        String subject = faker.book().title();
+        String description = faker.book().title() + " is a great example of modern technology.";
         homePage.createTicket(subject, description);
         Assert.assertEquals(homePage.getTicketTitle(), subject, "Ticket is not created");
     }
 
     @Test
     public void createAndViewTicketTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         String subject = faker.lorem().sentence();
         String description = faker.lorem().paragraph();
         homePage.createAndViewTicket(subject, description);
@@ -26,7 +26,7 @@ public class UserDashboardTest extends BaseTest {
 
     @Test
     public void viewCardOnHomePageTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         Assert.assertTrue(homePage.isViewAllTicketsCardVisible(),"View All Tickets card is not visible");
         Assert.assertTrue(homePage.isHelpArticleCardVisible(),"Help Article card is not visible");
         Assert.assertTrue(homePage.isFAQCardVisible(),"FAQ card is not visible");
@@ -34,7 +34,7 @@ public class UserDashboardTest extends BaseTest {
 
     @Test
     public void arcLinkTabTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         homePage.clickOnArcLinkButton();
         Assert.assertTrue(homePage.isDownloadForWindowsBtn(),"Download for windows button not visible");
         Assert.assertTrue(homePage.isDownloadForMacOSBtn(),"Download for MAC OS button not visible");
@@ -42,7 +42,7 @@ public class UserDashboardTest extends BaseTest {
 
     @Test
     public void createSignatureTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         String signatureTitle = faker.lorem().sentence();
         String signatureDescription = faker.lorem().paragraph();
 
@@ -56,7 +56,7 @@ public class UserDashboardTest extends BaseTest {
 
     @Test
     public void createTicketErrorMsgTest() {
-        loginPage.userLogin(prop.getProperty("username2"), prop.getProperty("password"));
+        loginPage.userLogin(prop.getProperty("username1"), prop.getProperty("password"));
         homePage.createTicketBtn();
         Assert.assertTrue(homePage.departmentErrorIsVisible(),"department is mandatory error is not shown");
         Assert.assertTrue(homePage.typeErrorIsVisible(),"type is mandatory error is not shown");
