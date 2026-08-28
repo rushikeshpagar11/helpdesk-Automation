@@ -29,7 +29,7 @@ public class AdminDashboardTest extends BaseTest {
     public void createDepartmentTest() {
         loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
-        String departmentName = faker.name().firstName()+"Department";
+        String departmentName = faker.name().firstName() + "Department";
         adminPage.createNewDepartment(departmentName);
         Assert.assertEquals(adminPage.searchAndGetDepartmentName(departmentName), departmentName, "Department is not created");
     }
@@ -61,9 +61,10 @@ public class AdminDashboardTest extends BaseTest {
         String orgSignature = faker.name().firstName();
         String address = faker.address().fullAddress();
         String city = faker.address().city();
-        String zipCode = "2" + faker.number().digits(5);;
+        String zipCode = "2" + faker.number().digits(5);
+        ;
         String mobile = "9" + faker.number().digits(9);
-        adminPage.createNewOrganisation(organisationName,orgSignature,address,city,zipCode,mobile);
+        adminPage.createNewOrganisation(organisationName, orgSignature, address, city, zipCode, mobile);
         Assert.assertEquals(adminPage.searchAndGetOrganisationName(organisationName), organisationName, "Organization is not created");
     }
 
@@ -83,7 +84,9 @@ public class AdminDashboardTest extends BaseTest {
         adminPage.createNewAgent(firstName, lastName, mobile, email);
         homePage.clickOnProfile().clickOnLogoutBtn();
 
-        Page onboardingPage = page.context().waitForPage(() -> {emailHelper.clickSetMyPassword(email);});
+        Page onboardingPage = page.context().waitForPage(() -> {
+            emailHelper.clickSetMyPassword(email);
+        });
 
         onboardingPage.waitForLoadState();
 
@@ -99,5 +102,4 @@ public class AdminDashboardTest extends BaseTest {
         onboardingLoginPage.userLogin(email, prop.getProperty("password"));
         Assert.assertTrue(homePage.isCreateTicketBtnVisible(), "user is not logged in");
     }
-
 }

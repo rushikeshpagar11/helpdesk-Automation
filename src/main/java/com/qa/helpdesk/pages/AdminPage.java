@@ -128,8 +128,8 @@ public class AdminPage {
         return access_Name;
     }
 
-    public AdminPage createNewOrganisation(String organisationName,String organisationSignature,
-                                           String address,String city,String zip,String phoneNumber) {
+    public AdminPage createNewOrganisation(String organisationName, String organisationSignature,
+                                           String address, String city, String zip, String phoneNumber) {
         clickOnNewBtn();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("New Organization")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Your Organization Name"))
