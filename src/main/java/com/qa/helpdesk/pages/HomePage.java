@@ -8,7 +8,7 @@ public class HomePage {
 
     private Page page;
 
-    private String createTicket = "//div[contains(@class,'hidden lg:flex f')]";
+    private String createTicket = "(//span[normalize-space()='Create Ticket'])[1]";
     private String ticketTitle ="div[class='text-[14px] font-medium text-heading truncate cursor-pointer block w-full']";
     private String ticketTitleOnStandalonePage = "h1[class='text-[24px] font-semibold leading-[32px] tracking-[0em] text-label break-all whitespace-pre-wrap']";
     private String viewAllTicketsCard = "//h3[text()='View All Tickets']";
@@ -33,8 +33,8 @@ public class HomePage {
     }
 
     public boolean isCreateTicketBtnVisible() {
-        page.locator(createTicket).waitFor();
-        return page.isVisible(createTicket);
+        page.waitForTimeout(1000);
+        return page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().isVisible();
     }
 
     public HomePage createTicket(String subject,String Description){
@@ -165,6 +165,7 @@ public class HomePage {
 
     public HomePage createTicketBtn(){
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
+        page.waitForTimeout(1000);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).nth(1).click();
         return new HomePage(page);
     }

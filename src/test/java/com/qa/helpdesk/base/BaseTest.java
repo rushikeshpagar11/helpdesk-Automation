@@ -31,7 +31,7 @@ public class BaseTest {
         page = playwrightFactory.initBrowser(prop);
         loginPage = new LoginPage(page);
         agentDashboardPage = new AgentDashboardPage(page);
-        faker = new Faker(new Locale("en", "US"));
+        faker = new Faker(Locale.ENGLISH);;
         adminPage = new AdminPage(page);
         homePage = new HomePage(page);
         emailHelper = new EmailHelper(page);
