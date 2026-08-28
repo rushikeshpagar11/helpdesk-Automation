@@ -62,7 +62,7 @@ public class SetPasswordPage {
         return this;
     }
 
-    public LoginPage clickGoToLoginBtn(){
+    public LoginPage clickGoToLoginBtn() {
         page.locator(goToLoginBtn).click();
         return new LoginPage(page);
     }

@@ -9,7 +9,7 @@ public class HomePage {
     private Page page;
 
     private String createTicket = "(//span[normalize-space()='Create Ticket'])[1]";
-    private String ticketTitle ="div[class='text-[14px] font-medium text-heading truncate cursor-pointer block w-full']";
+    private String ticketTitle = "div[class='text-[14px] font-medium text-heading truncate cursor-pointer block w-full']";
     private String ticketTitleOnStandalonePage = "h1[class='text-[24px] font-semibold leading-[32px] tracking-[0em] text-label break-all whitespace-pre-wrap']";
     private String viewAllTicketsCard = "//h3[text()='View All Tickets']";
     private String helpArticleCard = "//h3[text()='Help Articles']";
@@ -37,7 +37,7 @@ public class HomePage {
         return page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().isVisible();
     }
 
-    public HomePage createTicket(String subject,String Description){
+    public HomePage createTicket(String subject, String Description) {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
@@ -59,7 +59,7 @@ public class HomePage {
         return ticket_title;
     }
 
-    public HomePage createAndViewTicket(String subject,String Description){
+    public HomePage createAndViewTicket(String subject, String Description) {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Department")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Support")).first().click();
@@ -97,7 +97,7 @@ public class HomePage {
         return page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName("FAQ")).isVisible();
     }
 
-    public HomePage clickOnArcLinkButton(){
+    public HomePage clickOnArcLinkButton() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("ArcLink Logo ArcLink")).click();
         return new HomePage(page);
     }
@@ -112,35 +112,35 @@ public class HomePage {
         return page.locator(downloadForMacOSBtn).isVisible();
     }
 
-    public HomePage clickOnProfile(){
+    public HomePage clickOnProfile() {
         page.waitForTimeout(1000);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("User")).click();
         return new HomePage(page);
     }
 
-    public HomePage clickOnMyProfileBtn(){
+    public HomePage clickOnMyProfileBtn() {
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("My Profile")).click();
         return new HomePage(page);
     }
 
-    public HomePage clickSignatureBtn(){
+    public HomePage clickSignatureBtn() {
         page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Signature")).click();
         return new HomePage(page);
     }
 
-    public HomePage clickAddNewSignatureBtn(){
+    public HomePage clickAddNewSignatureBtn() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add New Signatures")).click();
         return new HomePage(page);
     }
 
-    public HomePage addTitleAndDescriptionSignature(String signatureTitle,String signatureDescriptionn){
+    public HomePage addTitleAndDescriptionSignature(String signatureTitle, String signatureDescriptionn) {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add signature name"))
                 .pressSequentially(signatureTitle);
         page.locator(signatureDescription).pressSequentially(signatureDescriptionn);
         return new HomePage(page);
     }
 
-    public HomePage clickAddSignatureBtn(){
+    public HomePage clickAddSignatureBtn() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add Signature")).click();
         return new HomePage(page);
     }
@@ -152,18 +152,18 @@ public class HomePage {
         return signature_title;
     }
 
-    public HomePage deleteSignatureBtn(){
+    public HomePage deleteSignatureBtn() {
         page.locator(deleteSignatureBtn).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Yes, Delete")).click();
         return new HomePage(page);
     }
 
-    public HomePage clickOnLogoutBtn(){
+    public HomePage clickOnLogoutBtn() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Logout")).click();
         return new HomePage(page);
     }
 
-    public HomePage createTicketBtn(){
+    public HomePage createTicketBtn() {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().click();
         page.waitForTimeout(1000);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).nth(1).click();
@@ -178,7 +178,7 @@ public class HomePage {
     }
 
     public boolean departmentErrorIsVisible() {
-       return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
+        return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
         ).filter(new Locator.FilterOptions().setHasText("Please select a department")).isVisible();
     }
 
@@ -201,10 +201,6 @@ public class HomePage {
         return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
         ).filter(new Locator.FilterOptions().setHasText("Description is required")).isVisible();
     }
-
-
-
-
 
 
 }
