@@ -16,7 +16,7 @@ public class LoginPage {
     private String loginButton = "button[type='submit']";
     private String forgetPwdLink = "//div[text()='Forgot password ?']";
     private String getCaptcha = "//img[@alt='captcha']";
-    private String enterCaptcha = "//input[@placeholder='Enter The Text Shown Above']";
+    private String enterCaptcha = "//input[@placeholder='Enter Captcha']";
     private String staffLogin = "//button[text()='Staff Login']";
     private String reloadCaptcha = "(//*[name()='path'])[2]";
 
@@ -162,4 +162,27 @@ public class LoginPage {
 
         return new AgentDashboardPage(page);
     }
+
+    public HomePage clickLoginBtn() {
+        page.click(loginButton);
+        return new HomePage(page);
+    }
+
+    public String getEmailRequiredMsg() {
+        return page.getByText("Email Address is required.").innerText();
+    }
+
+    public String getPasswordRequiredMsg() {
+        return page.getByText("Password is required.").innerText();
+    }
+
+    public String getCaptchaRequiredMsg() {
+        return page.getByText("Captcha is required").innerText();
+    }
+
+    public HomePage clickStaffLogin() {
+        page.locator(staffLogin).click();
+        return new HomePage(page);
+    }
+
 }

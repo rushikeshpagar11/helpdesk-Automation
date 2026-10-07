@@ -38,6 +38,7 @@ public class AgentDashboardTest extends BaseTest {
                 + lastName.toLowerCase()
                 + "@yopmail.com";
         agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
+        getPage().pause();
         Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
 
     }
@@ -101,6 +102,7 @@ public class AgentDashboardTest extends BaseTest {
                 + "@yopmail.com";
         agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
         agentDashboardPage.searchAndDeleteUser(email);
+
         //Assert.assertEquals(agentDashboardPage.getUserName(), userName, "user is not created");
 
     }

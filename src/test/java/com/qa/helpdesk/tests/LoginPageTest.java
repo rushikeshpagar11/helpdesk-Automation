@@ -39,4 +39,24 @@ public class LoginPageTest extends BaseTest {
         Assert.assertEquals(title, AppConstants.AGENT_DASHBOARD_TITLE);
     }
 
+    @Test
+    public void userLoginValidationTest() {
+        loginPage.clickLoginBtn();
+        Assert.assertEquals(loginPage.getEmailRequiredMsg(), AppConstants.EMAIL_MANDATORY_MSG, "Message incorrect");
+        Assert.assertEquals(loginPage.getPasswordRequiredMsg(), AppConstants.PASSWORD_MANDATORY_MSG, "Message incorrect");
+        Assert.assertEquals(loginPage.getCaptchaRequiredMsg(), AppConstants.CAPTCHA_MANDATORY_MSG, "Message incorrect");
+
+    }
+
+    @Test
+    public void agentLoginValidationTest() {
+        loginPage.clickStaffLogin();
+        loginPage.clickLoginBtn();
+        Assert.assertEquals(loginPage.getEmailRequiredMsg(), AppConstants.EMAIL_MANDATORY_MSG, "Message incorrect");
+        Assert.assertEquals(loginPage.getPasswordRequiredMsg(), AppConstants.PASSWORD_MANDATORY_MSG, "Message incorrect");
+        Assert.assertEquals(loginPage.getCaptchaRequiredMsg(), AppConstants.CAPTCHA_MANDATORY_MSG, "Message incorrect");
+
+    }
+
+
 }
