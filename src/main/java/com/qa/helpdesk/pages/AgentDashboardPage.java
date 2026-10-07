@@ -29,7 +29,7 @@ public class AgentDashboardPage {
     private String userName = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) a:nth-child(1)";
     private String knowledgeableTitle = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(1)";
     private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
-    private String deleteUserCheckBox = "body > div:nth-child(12) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > div:nth-child(1)";
+    private String deleteUserCheckBox = "//tbody/tr[1]/td[1]//div[contains(@class,'w-5') and contains(@class,'h-5') and contains(@class,'cursor-pointer')]";
 
 
     public AgentDashboardPage(Page page) {
@@ -111,7 +111,7 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."))
                 .pressSequentially(lastname);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Organization")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ampcus Tech").setExact(true)).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ampcus Tech QA").setExact(true)).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                 .pressSequentially(mobileNumber);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Email Address"))
@@ -210,14 +210,29 @@ public class AgentDashboardPage {
     }
 
     public AgentDashboardPage searchAndDeleteUser(String email) {
-        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search Users..."))
-                .pressSequentially(email);
+
+        page.getByRole(
+                AriaRole.TEXTBOX,
+                new Page.GetByRoleOptions().setName("Search Users...")
+        ).fill(email);
+
         page.waitForTimeout(1000);
+
+        // Click/check the actual checkbox
         page.locator(deleteUserCheckBox).click();
-        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(2)
+
+        page.getByRole(AriaRole.BUTTON)
+                .filter(new Locator.FilterOptions()
+                        .setHasText(Pattern.compile("^$")))
+                .nth(3)
                 .click();
+
         page.waitForTimeout(1000);
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Yes, Delete")).click();
+
+        page.getByRole(
+                AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName("Yes, Delete")
+        ).click();
 
         return new AgentDashboardPage(page);
     }
