@@ -3,9 +3,12 @@ package com.qa.helpdesk.pages;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.playwright.APIResponse;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Response;
 import com.microsoft.playwright.options.AriaRole;
+
+import java.io.File;
 
 public class LoginPage {
 
@@ -20,6 +23,7 @@ public class LoginPage {
     private String enterCaptcha = "//input[@placeholder='Enter Captcha']";
     private String staffLogin = "//button[text()='Staff Login']";
     private String reloadCaptcha = "(//*[name()='path'])[2]";
+    private String logoContainer = "img[alt='Ampcus Logo']";
 
     public LoginPage(Page page) {
         this.page = page;
@@ -195,6 +199,18 @@ public class LoginPage {
 
     public String passwordResetLinkMsg() {
         return page.getByText("Password reset link has been").innerText();
+    }
+
+    public File captureLogoImage(String savePath) {
+        Locator logoElement = page.locator(logoContainer);
+        File screenshotFile = new File(savePath);
+
+        // Ensure parent directories exist
+        screenshotFile.getParentFile().mkdirs();
+
+        // Capture element screenshot
+        logoElement.screenshot(new Locator.ScreenshotOptions().setPath(screenshotFile.toPath()));
+        return screenshotFile;
     }
 
 }

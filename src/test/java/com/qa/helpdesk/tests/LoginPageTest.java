@@ -1,10 +1,18 @@
 package com.qa.helpdesk.tests;
 
+import com.github.romankh3.image.comparison.ImageComparison;
+import com.github.romankh3.image.comparison.ImageComparisonUtil;
+import com.github.romankh3.image.comparison.model.ImageComparisonResult;
+import com.github.romankh3.image.comparison.model.ImageComparisonState;
 import com.microsoft.playwright.Page;
 import com.qa.helpdesk.base.BaseTest;
 import com.qa.helpdesk.constants.AppConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class LoginPageTest extends BaseTest {
 
@@ -81,5 +89,35 @@ public class LoginPageTest extends BaseTest {
     }
 
 
+    @Test
+    public void verifyLogoVisualWithDataFolder() throws IOException {
+        File expectedFile = new File("src/testData/actual_logo.png");
+        File actualFile = new File("target/visual-results/actual_logo.png");
+        File diffFile = new File("target/visual-results/diff_logo.png");
+
+        Assert.assertTrue(expectedFile.exists(),
+                "Missing expected baseline image! Please place 'expected_logo.png' inside the 'data/' directory.");
+
+        loginPage.captureLogoImage(actualFile.getAbsolutePath());
+
+        BufferedImage expectedImg = javax.imageio.ImageIO.read(expectedFile);
+        BufferedImage actualImg = javax.imageio.ImageIO.read(actualFile);
+
+
+        ImageComparison comparer = new ImageComparison(expectedImg, actualImg);
+
+        comparer.setThreshold(10);
+
+        ImageComparisonResult result = comparer.compareImages();
+
+        if (result.getImageComparisonState() != ImageComparisonState.MATCH) {
+            ImageComparisonUtil.saveImage(diffFile, result.getResult());
+            System.err.println("Visual test failed! Differences highlighted at: " + diffFile.getAbsolutePath());
+        }
+
+        Assert.assertEquals(result.getImageComparisonState(), ImageComparisonState.MATCH,
+                "Visual layout mismatch against baseline stored in data folder! Review: " + diffFile.getAbsolutePath());
+    }
+    
 
 }
