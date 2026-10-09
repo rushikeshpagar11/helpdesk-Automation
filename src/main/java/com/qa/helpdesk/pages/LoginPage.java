@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Response;
+import com.microsoft.playwright.options.AriaRole;
 
 public class LoginPage {
 
@@ -183,6 +184,17 @@ public class LoginPage {
     public HomePage clickStaffLogin() {
         page.locator(staffLogin).click();
         return new HomePage(page);
+    }
+
+    public HomePage forgetPassword(String email) {
+        page.locator(forgetPwdLink).click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter your email")).pressSequentially(email);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reset Password")).click();
+        return new HomePage(page);
+    }
+
+    public String passwordResetLinkMsg() {
+        return page.getByText("Password reset link has been").innerText();
     }
 
 }

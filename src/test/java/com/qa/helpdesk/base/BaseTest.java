@@ -54,7 +54,7 @@ public class BaseTest {
     public void generateAndOpenAllureReport() {
         // Check if automatic opening is explicitly disabled
         // By default, it will now SKIP opening unless you pass -DopenReport=true
-        String openReportProp = System.getProperty("openReport", "true");
+        String openReportProp = System.getProperty("openReport", "false");
 
         if (!Boolean.parseBoolean(openReportProp)) {
             System.out.println("=========================================================");

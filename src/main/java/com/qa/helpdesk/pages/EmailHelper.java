@@ -111,4 +111,65 @@ public class EmailHelper {
                         + email
         );
     }
+
+
+    public String clickResetPasswordLink(String email) {
+        String inboxName = email.split("@")[0];
+
+        // Open Yopmail inbox
+        page.navigate("https://yopmail.com/?login=" + inboxName);
+        page.waitForTimeout(3000);
+
+        for (int attempt = 1; attempt <= 10; attempt++) {
+            try {
+                FrameLocator inboxFrame = page.locator("#ifinbox").contentFrame();
+                Locator emails = inboxFrame.locator("div.m");
+
+                if (emails.count() == 0) {
+                    System.out.println("Email not found. Attempt: " + attempt);
+                } else {
+                    // Open latest email
+                    emails.first().click();
+                    page.waitForTimeout(1500);
+
+                    FrameLocator mailFrame = page.locator("#ifmail").contentFrame();
+
+                    // Find "Reset Password Link" based on the email content screenshot
+                    Locator passwordLink = mailFrame.getByRole(
+                            AriaRole.LINK,
+                            new FrameLocator.GetByRoleOptions().setName("Reset Password Link")
+                    );
+
+                    if (passwordLink.count() > 0) {
+                        System.out.println("Reset Password link found.");
+
+                        // Get href before clicking
+                        String resetUrl = passwordLink.getAttribute("href");
+                        System.out.println("Reset URL: " + resetUrl);
+
+                        if (resetUrl == null || resetUrl.trim().isEmpty()) {
+                            throw new RuntimeException("Reset Password link has no href");
+                        }
+
+                        // CLICK THE ACTUAL LINK
+                        passwordLink.click();
+                        return resetUrl;
+                    }
+                    System.out.println("Reset Password link not found. Attempt: " + attempt);
+                }
+            } catch (Exception e) {
+                System.out.println("Email/link not ready. Attempt: " + attempt);
+                System.out.println("Reason: " + e.getMessage());
+            }
+
+            // Refresh Yopmail page
+            page.reload();
+            page.waitForTimeout(3000);
+        }
+
+        throw new RuntimeException("Reset Password link was not found for: " + email);
+    }
+
+
+
 }

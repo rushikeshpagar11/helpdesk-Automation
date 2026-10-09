@@ -66,4 +66,19 @@ public class SetPasswordPage {
         page.locator(goToLoginBtn).click();
         return new LoginPage(page);
     }
+
+
+    // Accept the specific Page context as a parameter
+    public void resetPassword(Page activePage, String newPassword) {
+
+        // Use the active tab context to look for placeholders instead of AriaRole.TEXTBOX
+        activePage.getByPlaceholder("Enter Your New Password").pressSequentially(newPassword);
+        activePage.getByPlaceholder("Confirm Your New Password").pressSequentially(newPassword);
+
+        // Click the update password button
+        activePage.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Update Password")).click();
+    }
+
+
+
 }

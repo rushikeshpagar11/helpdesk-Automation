@@ -1,5 +1,6 @@
 package com.qa.helpdesk.tests;
 
+import com.microsoft.playwright.Page;
 import com.qa.helpdesk.base.BaseTest;
 import com.qa.helpdesk.constants.AppConstants;
 import org.testng.Assert;
@@ -57,6 +58,28 @@ public class LoginPageTest extends BaseTest {
         Assert.assertEquals(loginPage.getCaptchaRequiredMsg(), AppConstants.CAPTCHA_MANDATORY_MSG, "Message incorrect");
 
     }
+
+    @Test
+    public void forgetPasswordTest() {
+        String email = prop.getProperty("username2");
+        loginPage.forgetPassword(email);
+        Assert.assertEquals(loginPage.passwordResetLinkMsg(), AppConstants.PASSWORD_RESET_LINK_SEND_MSG, "Message incorrect");
+
+        // Capture the new password reset tab
+        Page resetPasswordPage = page.context().waitForPage(() -> {
+            emailHelper.clickResetPasswordLink(email);
+        });
+
+        resetPasswordPage.bringToFront();
+
+        String randomPassword = faker.internet().password(10, 16, true, true, true);
+
+
+        setPasswordPage.resetPassword(resetPasswordPage, randomPassword);
+
+        loginPage.userLogin(email, randomPassword);
+    }
+
 
 
 }
