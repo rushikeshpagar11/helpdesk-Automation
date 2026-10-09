@@ -20,6 +20,8 @@ public class HomePage {
     private String signatureTitle = "h4[class='text-[14px] font-medium text-heading']";
     private String deleteSignatureBtn = "button[class='p-2 border border-border-default rounded-md bg-white text-heading hover:bg-[#FFF5F5] hover:border-[#D91616] hover:text-[#D91616] transition-all group'] svg";
     private String mandatoryMsgonTicket = "private String signatureTitle = \"h4[class='text-[14px] font-medium text-heading']\";";
+    private String userProfile = "//img[@alt='User']";
+    private String logoutBtn = "(//span[contains(text(),'Logout')])[2]";
 
 
     public HomePage(Page page) {
@@ -33,7 +35,7 @@ public class HomePage {
     }
 
     public boolean isCreateTicketBtnVisible() {
-        page.waitForTimeout(1000);
+        page.waitForTimeout(2000);
         return page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Create Ticket")).first().isVisible();
     }
 
@@ -159,6 +161,7 @@ public class HomePage {
     }
 
     public HomePage clickOnLogoutBtn() {
+        page.waitForTimeout(1000);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Logout")).click();
         return new HomePage(page);
     }
@@ -200,6 +203,18 @@ public class HomePage {
     public boolean descriptionErrorIsVisible() {
         return page.locator("//p[@class='text-red-500 text-[14px] pl-1 font-medium']"
         ).filter(new Locator.FilterOptions().setHasText("Description is required")).isVisible();
+    }
+
+    public HomePage UserPanelClickOnProfileBtn() {
+        page.waitForTimeout(1000);
+        page.locator(userProfile).click();
+        return new HomePage(page);
+    }
+
+    public HomePage UserPanelClickOnLogoutBtn() {
+        page.waitForTimeout(1000);
+        page.locator(logoutBtn).click();
+        return new HomePage(page);
     }
 
 

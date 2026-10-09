@@ -2,6 +2,7 @@ package com.qa.helpdesk.tests;
 
 import com.microsoft.playwright.Page;
 import com.qa.helpdesk.base.BaseTest;
+import com.qa.helpdesk.pages.HomePage;
 import com.qa.helpdesk.pages.LoginPage;
 import com.qa.helpdesk.pages.SetPasswordPage;
 import org.testng.Assert;
@@ -139,6 +140,54 @@ public class AgentDashboardTest extends BaseTest {
         onboardingLoginPage.userLogin(email, prop.getProperty("password"));
         Assert.assertTrue(homePage.isCreateTicketBtnVisible(), "user is not logged in");
     }
+
+
+    @Test
+    public void createUserAndEditTest() {
+        loginPage.agentLogin(prop.getProperty("Agent_username4"), prop.getProperty("password"));
+
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String userName = firstName + " " + lastName;
+        String mobile = "9" + faker.number().digits(9);
+        String email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@yopmail.com";
+
+        agentDashboardPage.createNewUser(firstName, lastName, mobile, email);
+        homePage.clickOnProfile().clickOnLogoutBtn();
+
+        Page onboardingPage = page.context().waitForPage(() -> {
+            emailHelper.clickSetMyPassword(email);
+        });
+
+        onboardingPage.waitForLoadState();
+        System.out.println("Onboarding URL: " + onboardingPage.url());
+
+        SetPasswordPage setPasswordPage = new SetPasswordPage(onboardingPage);
+        setPasswordPage.enterPassword(prop.getProperty("password")).clickActivateBtn();
+        setPasswordPage.clickGoToLoginBtn();
+
+        LoginPage onboardingLoginPage = new LoginPage(onboardingPage);
+        onboardingLoginPage.userLogin(email, prop.getProperty("password"));
+
+        HomePage onboardingHomePage = new HomePage(onboardingPage);
+        onboardingHomePage.UserPanelClickOnProfileBtn().UserPanelClickOnLogoutBtn();
+        onboardingPage.close();
+
+        page.bringToFront();
+        page.navigate(prop.getProperty("url"));
+        loginPage.agentLogin(prop.getProperty("Agent_username4"), prop.getProperty("password"));
+        agentDashboardPage.clickOnFirstUser();
+
+        String updatedFirstName = faker.name().firstName();
+        String updatedLastName = faker.name().lastName();
+
+        agentDashboardPage.updateUser(updatedFirstName,updatedLastName);
+        agentDashboardPage.clickOnFirstUser();
+        agentDashboardPage.verifyTextBoxValue(page, "First Name", updatedFirstName);
+        agentDashboardPage.verifyTextBoxValue(page, "Last Name", updatedLastName);
+
+    }
+
 
 
 }

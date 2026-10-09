@@ -237,5 +237,25 @@ public class AgentDashboardPage {
         return new AgentDashboardPage(page);
     }
 
+    public AgentDashboardPage updateUser(String firstname, String lastname) {
+        // 1. Target the First Name field, clear it, and type sequentionally
+        Locator firstNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."));
+        firstNameInput.click();
+        firstNameInput.press("Control+A"); // Mac users may need "Meta+A" if running locally on macOS
+        firstNameInput.press("Backspace");
+        firstNameInput.pressSequentially(firstname);
+
+        // 2. Target the Last Name field, clear it, and type sequentionally
+        Locator lastNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."));
+        lastNameInput.click();
+        lastNameInput.press("Control+A");
+        lastNameInput.press("Backspace");
+        lastNameInput.pressSequentially(lastname);
+
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Update User")).click();
+        page.waitForTimeout(2000);
+        return new AgentDashboardPage(page);
+    }
+
 
 }
