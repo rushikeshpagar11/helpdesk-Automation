@@ -9,6 +9,7 @@ public class AppConstants {
     public static final String EMAIL_MANDATORY_MSG = "Email Address is required.";
     public static final String PASSWORD_MANDATORY_MSG = "Password is required.";
     public static final String CAPTCHA_MANDATORY_MSG = "Captcha is required";
+    public static final String PASSWORD_RESET_LINK_SEND_MSG = "Password reset link has been sent to your registered email address.";
 
 
 }
