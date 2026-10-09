@@ -47,7 +47,7 @@ public class AdminPage {
                 .pressSequentially("Agent");
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add Department...")).click();
         page.getByText("FINANCE", new Page.GetByTextOptions().setExact(true)).click();
-        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(4)
+        page.getByRole(AriaRole.BUTTON).filter(new Locator.FilterOptions().setHasText(Pattern.compile("^$"))).nth(5)
                 .click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Mobile Number"))
                 .pressSequentially(mobileNumber);
@@ -165,6 +165,38 @@ public class AdminPage {
         String organization_Name = page.textContent(departmentName);
         System.out.println("Organization Name is : " + organization_Name);
         return organization_Name;
+    }
+
+    public AdminPage clickOnFirstAgent() {
+        page.getByText("Agent").first().click();
+        page.locator("div").filter(new Locator.FilterOptions().setHasText(Pattern.compile("^Agent$"))).click();
+        page.locator(userName).click();
+        return new AdminPage(page);
+    }
+
+    public AdminPage updateAgent(String firstname, String lastname) {
+        // 1. Target the First Name field, clear it, and type sequentionally
+        Locator firstNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."));
+        firstNameInput.click();
+        firstNameInput.press("Control+A"); // Mac users may need "Meta+A" if running locally on macOS
+        firstNameInput.press("Backspace");
+        firstNameInput.pressSequentially(firstname);
+
+        // 2. Target the Last Name field, clear it, and type sequentionally
+        Locator lastNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."));
+        lastNameInput.click();
+        lastNameInput.press("Control+A");
+        lastNameInput.press("Backspace");
+        lastNameInput.pressSequentially(lastname);
+
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Update Agent")).click();
+        page.waitForTimeout(2000);
+        return new AdminPage(page);
+    }
+
+    public AdminPage clickOnNewAgent() {
+        page.locator(userName).click();
+        return new AdminPage(page);
     }
 
 }
