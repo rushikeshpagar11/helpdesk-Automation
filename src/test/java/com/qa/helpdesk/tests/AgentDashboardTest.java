@@ -188,6 +188,26 @@ public class AgentDashboardTest extends BaseTest {
 
     }
 
+    @Test
+    public void agentChatTest() {
+        String Agent_Name3 = prop.getProperty("Agent_user3_name");
+        String Agent_Name4 = prop.getProperty("Agent_user4_name");
+        String message = faker.lorem().sentence(20);
+
+        loginPage.agentLogin(prop.getProperty("Agent_username4"), prop.getProperty("password"));
+        getPage().pause();
+        agentDashboardPage.clickOnAgentChat().searchAgentInAgentChat(Agent_Name3)
+                .clickAgentInAgentChat(Agent_Name3).sendMsgInAgentChat(message);
+        agentDashboardPage.closeAgentChat();
+        homePage.clickOnProfile().clickOnLogoutBtn();
+
+        loginPage.agentLogin(prop.getProperty("Agent_username3"), prop.getProperty("password"));
+        agentDashboardPage.clickOnAgentChat().searchAgentInAgentChat(Agent_Name4)
+                .clickAgentInAgentChat(Agent_Name4);
+        String actualMessage = agentDashboardPage.getAgentChatMessage(message);
+        Assert.assertEquals(message,actualMessage,"message is not delivered to agent");
+    }
+
 
 
 }

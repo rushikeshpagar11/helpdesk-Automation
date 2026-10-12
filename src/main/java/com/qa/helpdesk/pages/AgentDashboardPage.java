@@ -238,14 +238,12 @@ public class AgentDashboardPage {
     }
 
     public AgentDashboardPage updateUser(String firstname, String lastname) {
-        // 1. Target the First Name field, clear it, and type sequentionally
         Locator firstNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter First Name..."));
         firstNameInput.click();
-        firstNameInput.press("Control+A"); // Mac users may need "Meta+A" if running locally on macOS
+        firstNameInput.press("Control+A");
         firstNameInput.press("Backspace");
         firstNameInput.pressSequentially(firstname);
 
-        // 2. Target the Last Name field, clear it, and type sequentionally
         Locator lastNameInput = page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Last Name..."));
         lastNameInput.click();
         lastNameInput.press("Control+A");
@@ -256,6 +254,43 @@ public class AgentDashboardPage {
         page.waitForTimeout(2000);
         return new AgentDashboardPage(page);
     }
+
+    public AgentDashboardPage clickOnAgentChat() {
+        page.getByText("Agent Chat", new Page.GetByTextOptions().setExact(true)).click();
+        return new AgentDashboardPage(page);
+    }
+
+    public AgentDashboardPage searchAgentInAgentChat(String agentName) {
+        page.locator(".lucide.lucide-search").click();
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Search conversations..."))
+                .pressSequentially(agentName);
+        return new AgentDashboardPage(page);
+    }
+
+    public AgentDashboardPage clickAgentInAgentChat(String agentName) {
+        page.getByText(agentName).nth(1).click();
+        page.waitForTimeout(1000);
+        return new AgentDashboardPage(page);
+    }
+
+
+    public AgentDashboardPage sendMsgInAgentChat(String message) {
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Type your message")).pressSequentially(message);
+        page.waitForTimeout(1000);
+        page.locator(".jsx-3919a15b75a7bab7.p-1").click();
+        return new AgentDashboardPage(page);
+    }
+
+    public AgentDashboardPage closeAgentChat() {
+        page.locator(".lucide.lucide-x").first().click();
+        return new AgentDashboardPage(page);
+    }
+
+    public String getAgentChatMessage(String message) {
+        return page.locator("span").filter(new Locator.FilterOptions().setHasText(message)).textContent();
+    }
+
+
 
 
 }
