@@ -2,4 +2,8 @@
 target/
 
 # Playwright failure screenshots
-src/failureScreenShots/
+# Test execution reports and screenshots
+allure-report/
+allure-results/
+src/failureScreenShots
+
