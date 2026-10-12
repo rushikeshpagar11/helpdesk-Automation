@@ -218,7 +218,7 @@ public class AgentDashboardTest extends BaseTest {
         Assert.assertTrue(agentDashboardPage.isTicketTabVisible(), "ticket tab is not visible");
         Assert.assertTrue(agentDashboardPage.isAgentsTabVisible(), "agent tab not visible");
         Assert.assertTrue(agentDashboardPage.isAgentChatTabVisible(), "agent chat is not visible");
-        Assert.assertTrue(agentDashboardPage.isKnowledgeBaseTabVisible(), "agent not having access still Knowledge base tab is visible");
+        Assert.assertFalse(agentDashboardPage.isKnowledgeBaseTabVisible(), "agent not having access still Knowledge base tab is visible");
         Assert.assertFalse(agentDashboardPage.isReportTabVisible(), "agent not having access still report tab is visible");
         Assert.assertFalse(agentDashboardPage.isTaskTabVisible(), "agent not having access still Task tab is visible");
         Assert.assertFalse(agentDashboardPage.isUsersTabVisible(), "agent not having access still Users tab is visible");
