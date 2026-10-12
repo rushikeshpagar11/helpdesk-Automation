@@ -152,5 +152,22 @@ public class AdminDashboardTest extends BaseTest {
         agentDashboardPage.verifyTextBoxValue(page, "Last Name", updatedLastName);
     }
 
+    @Test
+    public void organisationEditTest() {
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
+        agentDashboardPage.clickSwitchToAdminBtn();
+        String organisationName = faker.company().name();
+        String orgSignature = faker.name().firstName();
+        String address = faker.address().fullAddress();
+        String city = faker.address().city();
+        String zipCode = "2" + faker.number().digits(5);
+        String mobile = "9" + faker.number().digits(9);
+        adminPage.createNewOrganisation(organisationName, orgSignature, address, city, zipCode, mobile);
+        adminPage.searchAndGetOrganisationName(organisationName);
+        String newOrganisationName = "Updated "+faker.company().name();
+        adminPage.editOrganisation(organisationName,newOrganisationName);
+        Assert.assertEquals(adminPage.searchAndGetOrganisationName(newOrganisationName), newOrganisationName, "Organization is not updated");
+    }
+
 
 }
