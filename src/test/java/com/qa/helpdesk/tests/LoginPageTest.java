@@ -118,6 +118,6 @@ public class LoginPageTest extends BaseTest {
         Assert.assertEquals(result.getImageComparisonState(), ImageComparisonState.MATCH,
                 "Visual layout mismatch against baseline stored in data folder! Review: " + diffFile.getAbsolutePath());
     }
-    
+
 
 }

@@ -7,6 +7,7 @@ import com.qa.helpdesk.pages.LoginPage;
 import com.qa.helpdesk.pages.SetPasswordPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class AgentDashboardTest extends BaseTest {
 
@@ -181,7 +182,7 @@ public class AgentDashboardTest extends BaseTest {
         String updatedFirstName = faker.name().firstName();
         String updatedLastName = faker.name().lastName();
 
-        agentDashboardPage.updateUser(updatedFirstName,updatedLastName);
+        agentDashboardPage.updateUser(updatedFirstName, updatedLastName);
         agentDashboardPage.clickOnFirstUser();
         agentDashboardPage.verifyTextBoxValue(page, "First Name", updatedFirstName);
         agentDashboardPage.verifyTextBoxValue(page, "Last Name", updatedLastName);
@@ -195,7 +196,6 @@ public class AgentDashboardTest extends BaseTest {
         String message = faker.lorem().sentence(20);
 
         loginPage.agentLogin(prop.getProperty("Agent_username4"), prop.getProperty("password"));
-        getPage().pause();
         agentDashboardPage.clickOnAgentChat().searchAgentInAgentChat(Agent_Name3)
                 .clickAgentInAgentChat(Agent_Name3).sendMsgInAgentChat(message);
         agentDashboardPage.closeAgentChat();
@@ -205,9 +205,24 @@ public class AgentDashboardTest extends BaseTest {
         agentDashboardPage.clickOnAgentChat().searchAgentInAgentChat(Agent_Name4)
                 .clickAgentInAgentChat(Agent_Name4);
         String actualMessage = agentDashboardPage.getAgentChatMessage(message);
-        Assert.assertEquals(message,actualMessage,"message is not delivered to agent");
+        Assert.assertEquals(message, actualMessage, "message is not delivered to agent");
     }
 
+    @Test
+    public void agentAccessTest() {
+
+        //agent is having only ticket,agent, agent tab access
+        loginPage.agentLogin(prop.getProperty("Agent_Access_user"), prop.getProperty("password"));
+
+        Assert.assertFalse(agentDashboardPage.isDashboardTabVisible(), "agent not having access still Dashboard tab is visible");
+        Assert.assertTrue(agentDashboardPage.isTicketTabVisible(), "ticket tab is not visible");
+        Assert.assertTrue(agentDashboardPage.isAgentsTabVisible(), "agent tab not visible");
+        Assert.assertTrue(agentDashboardPage.isAgentChatTabVisible(), "agent chat is not visible");
+        Assert.assertTrue(agentDashboardPage.isKnowledgeBaseTabVisible(), "agent not having access still Knowledge base tab is visible");
+        Assert.assertFalse(agentDashboardPage.isReportTabVisible(), "agent not having access still report tab is visible");
+        Assert.assertFalse(agentDashboardPage.isTaskTabVisible(), "agent not having access still Task tab is visible");
+        Assert.assertFalse(agentDashboardPage.isUsersTabVisible(), "agent not having access still Users tab is visible");
+    }
 
 
 }

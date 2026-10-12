@@ -63,7 +63,6 @@ public class AdminDashboardTest extends BaseTest {
         String address = faker.address().fullAddress();
         String city = faker.address().city();
         String zipCode = "2" + faker.number().digits(5);
-        ;
         String mobile = "9" + faker.number().digits(9);
         adminPage.createNewOrganisation(organisationName, orgSignature, address, city, zipCode, mobile);
         Assert.assertEquals(adminPage.searchAndGetOrganisationName(organisationName), organisationName, "Organization is not created");
