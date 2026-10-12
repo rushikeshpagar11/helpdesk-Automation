@@ -30,6 +30,14 @@ public class AgentDashboardPage {
     private String knowledgeableTitle = "tbody tr:nth-child(1) td:nth-child(2) div:nth-child(1) div:nth-child(1) div:nth-child(1)";
     private String taskTitle = "tbody tr:nth-child(1) td:nth-child(3) div:nth-child(1)";
     private String deleteUserCheckBox = "//tbody/tr[1]/td[1]//div[contains(@class,'w-5') and contains(@class,'h-5') and contains(@class,'cursor-pointer')]";
+    private String ticketTab = "//span[normalize-space()='Ticket']";
+    private String dashboardTab = "//span[normalize-space()='Dashboard']";
+    private String usersTab = "//span[normalize-space()='Users']";
+    private String agentsTab = "//span[normalize-space()='Agents']";
+    private String taskTab = "//span[normalize-space()='Task']";
+    private String reportTab = "//span[normalize-space()='Report']";
+    private String knowledgeBaseTab = "//span[normalize-space()='Knowledge Base']";
+    private String agentChatTab = "//span[normalize-space()='Agent Chat']";
 
 
     public AgentDashboardPage(Page page) {
@@ -290,7 +298,37 @@ public class AgentDashboardPage {
         return page.locator("span").filter(new Locator.FilterOptions().setHasText(message)).textContent();
     }
 
+    public boolean isTicketTabVisible() {
+        return page.locator(ticketTab).isVisible();
+    }
 
+    public boolean isDashboardTabVisible() {
+        return page.locator(dashboardTab).isVisible();
+    }
+
+    public boolean isUsersTabVisible() {
+        return page.locator(usersTab).isVisible();
+    }
+
+    public boolean isAgentsTabVisible() {
+        return page.locator(agentsTab).isVisible();
+    }
+
+    public boolean isTaskTabVisible() {
+        return page.locator(taskTab).isVisible();
+    }
+
+    public boolean isReportTabVisible() {
+        return page.locator(reportTab).isVisible();
+    }
+
+    public boolean isKnowledgeBaseTabVisible() {
+        return page.locator(knowledgeBaseTab).isVisible();
+    }
+
+    public boolean isAgentChatTabVisible() {
+        return page.locator(agentChatTab).isVisible();
+    }
 
 
 }

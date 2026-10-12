@@ -164,7 +164,7 @@ public class LoginPage {
         page.fill(passwordInput, password);
         page.fill(enterCaptcha, dynamicCaptchaText);
         page.click(loginButton);
-
+        page.waitForTimeout(1000);
         return new AgentDashboardPage(page);
     }
 
