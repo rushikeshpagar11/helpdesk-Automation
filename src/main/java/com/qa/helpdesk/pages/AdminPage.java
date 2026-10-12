@@ -138,7 +138,7 @@ public class AdminPage {
 //        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("P1")).click();
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Add department..."))
                 .click();
-        page.getByText("IT").click();
+        page.getByText("IT", new Page.GetByTextOptions().setExact(true)).click();
         page.locator(".ql-editor").pressSequentially(organisationSignature);
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter your full address"))
                 .pressSequentially(address);
@@ -198,5 +198,21 @@ public class AdminPage {
         page.locator(userName).click();
         return new AdminPage(page);
     }
+
+    public AdminPage clickOnOrganisation(){
+        page.locator("span").filter(new Locator.FilterOptions().setHasText("Organizations"));
+        return new AdminPage(page);
+    }
+
+    public AdminPage editOrganisation(String organisationName,String newOrgName){
+        page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName(organisationName)).click();
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Your Organization Name")).fill(newOrgName);
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Update Organization")).click();
+        return new AdminPage(page);
+    }
+
+
 
 }
