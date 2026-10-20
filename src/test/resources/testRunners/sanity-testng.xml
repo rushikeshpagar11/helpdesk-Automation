@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Helpdesk PW Sanity Suite" parallel="classes" thread-count="2">
+
+    <test name="Sanity Tests">
+        <groups>
+            <run>
+                <include name="sanity"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.qa.helpdesk.tests.LoginPageTest"/>
+            <class name="com.qa.helpdesk.tests.UserDashboardTest"/>
+            <class name="com.qa.helpdesk.tests.AgentDashboardTest"/>
+            <class name="com.qa.helpdesk.tests.AdminDashboardTest"/>
+        </classes>
+    </test>
+
+</suite>

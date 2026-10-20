@@ -173,7 +173,7 @@ public class AgentDashboardPage {
         page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter a clear and specific"))
                 .pressSequentially(taskTitle);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Department")).click();
-        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("IT Department")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("IT").setExact(true)).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select a Priority")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Critical")).click();
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Select Status")).click();
