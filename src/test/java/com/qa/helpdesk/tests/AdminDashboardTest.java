@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class AdminDashboardTest extends BaseTest {
 
-    @Test
+    @Test (groups = {"smoke", "regression"})
     public void createAgentTest() {
         loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
@@ -45,7 +45,7 @@ public class AdminDashboardTest extends BaseTest {
 //        Assert.assertEquals(adminPage.searchAndGetTeamName(teamName), teamName, "Team is not created");
 //    }
 
-    @Test
+    @Test (groups = {"sanity", "regression"})
     public void createAccessTest() {
         loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
         agentDashboardPage.clickSwitchToAdminBtn();
@@ -167,6 +167,18 @@ public class AdminDashboardTest extends BaseTest {
         String newOrganisationName = "Updated "+faker.company().name();
         adminPage.editOrganisation(organisationName,newOrganisationName);
         Assert.assertEquals(adminPage.searchAndGetOrganisationName(newOrganisationName), newOrganisationName, "Organization is not updated");
+    }
+
+    @Test
+    public void createAndEditDepartmentTest() {
+        loginPage.agentLogin(prop.getProperty("Admin_username"), prop.getProperty("password"));
+        agentDashboardPage.clickSwitchToAdminBtn();
+        String departmentName = faker.name().firstName() + "Department";
+        String updatedDepartmentName = faker.name().firstName() + " Updated Department";
+        adminPage.createNewDepartment(departmentName);
+        adminPage.searchAndGetDepartmentName(departmentName);
+        adminPage.clickAndUpdateDepartmentName(departmentName,updatedDepartmentName);
+        Assert.assertEquals(adminPage.searchAndGetDepartmentName(updatedDepartmentName), updatedDepartmentName, "Department is not Updated");
     }
 
 

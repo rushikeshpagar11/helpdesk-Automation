@@ -213,6 +213,16 @@ public class AdminPage {
         return new AdminPage(page);
     }
 
+    public AdminPage clickAndUpdateDepartmentName(String deptName, String updatedDeptName) {
+        page.getByText(deptName).first().click();
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName("Enter Department Name...")).fill(updatedDeptName);
+        page.waitForTimeout(1000);
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Update Department")).click();
+        page.waitForTimeout(1000);
+        return new AdminPage(page);
+    }
+
 
 
 }
